@@ -10,15 +10,31 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- 配置包扫描 -->
-	<context:component-scan base-package="top.tomxwd.tms" />
+	<context:component-scan
+		base-package="top.tomxwd.tms" />
 	<!-- 开启springmvc注解驱动 -->
 	<mvc:annotation-driven />
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	
+	<!-- 配置视图解析器
+		InternalResourceViewResolver对jstl的兼容性不好
+		
+		如果要使用jstl，那么建议添加jstlView属性
+	 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
 		<property name="prefix" value="/WEB-INF/tms/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 	<!-- 静态资源放行 -->
-	<mvc:default-servlet-handler/>
-	
-	
+	<mvc:default-servlet-handler />
+
+	<!-- 配置文件上传解析器：bean的名字是固定的,底层使用的名称注入 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为1MB -->
+		<property name="maxUploadSize" value="#{1024 * 1024}"></property>
+	</bean>
+
+
 </beans>
