@@ -1,7 +1,13 @@
 package top.tomxwd.tms.pojo.system;
 
 public class Power {
-    private Integer id;
+    @Override
+	public String toString() {
+		return "Power [id=" + id + ", powerName=" + powerName + ", powerAction=" + powerAction + ", powerDisplay="
+				+ powerDisplay + ", modularId=" + modularId + "]";
+	}
+
+	private Integer id;
 
     private String powerName;
 

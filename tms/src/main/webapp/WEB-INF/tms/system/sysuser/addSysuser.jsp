@@ -32,6 +32,7 @@
 				
 				<!-- enctype="multipart/form-data" -->
 					<form class="form-horizontal m-t" method="post" id="addUserForm" enctype="multipart/form-data">
+						
 						<div class="form-group">
 							<label class="col-sm-3 control-label">用户名：</label>
 							<div class="col-sm-4">
@@ -62,6 +63,27 @@
 								<input id="check_pwd" name="check_pwd" placeholder="请再次输入密码" class="form-control"
 									type="password"
 									class="valid">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">用户角色：</label>
+							<div class="col-sm-4">
+
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="必选" id="roleName" name="roleName">
+									<input type="hidden" readonly="readonly" id="roleId" name="roleId"/>
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-white dropdown-toggle"
+											data-toggle="dropdown">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right" role="menu">
+										</ul>
+									</div>
+								</div>
+									<label style="color:#cc5965" id="roleNameMsg"></label>
+
+
 							</div>
 						</div>
 						<div class="form-group">
@@ -105,6 +127,8 @@
 									type="file">
 							</div>
 						</div>
+						
+						
 
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-8">
@@ -165,6 +189,31 @@
 			var pattern = /^1[3,4,5,8,9][0-9]{9}$/
 			return pattern.test(value);
 		},"请输入11位有效的手机号码")
+		$.validator.addMethod("roleNameRequired",
+					function(value, element, param) {
+						/* var pattern = /^1[3,4,5,8,9][0-9]{9}$/
+						return pattern.test(value); */
+						var roleName = $("#roleName").val();
+						if(roleName){
+							$.get("${ctx}/role/checkRoleName",{roleName:roleName},function(data){
+								if(data){
+									//data true 说明没有输入正确
+									$("#roleNameMsg").html("请选择正确的角色！");
+								}else{
+									//data false 说明输入正确
+									if($("#roleId").val()){
+										$("#roleNameMsg").html("");
+									}else{
+										$("#roleNameMsg").html("输入后请手动选择角色！")
+									}
+								}
+							})
+						}else{
+							//无值
+							$("#roleNameMsg").html("请选择正确的角色！");
+						}
+						return true;
+					}, "用户角色不能为空")
 
 		
 		
@@ -198,6 +247,7 @@
 				email:"required",
 				qq:"required",
 				regtime:"required",
+				roleName : "roleNameRequired",
 			},messages:{
 				username:{
 					required:"用户名不能为空",
@@ -216,7 +266,11 @@
 				email:"邮箱不能为空",
 				qq:"qq不能为空",
 				regtime:" 注册日期不能为空",
+				roleName :"用户角色不能为空"
 			},submitHandler:function(){
+				if(!$("#roleId").val()){
+					return;
+				}
 				//1、序列化表单
 				//var formData = $("#addUserForm").serialize();
 				//可以文件上传的
@@ -257,6 +311,29 @@
 				}
 				})
 			}
+		});
+		
+		/*搜索自动补齐*/
+		var testBsSuggest = $("#roleName").bsSuggest({
+			url : "${ctx}/role/allRole",
+			/*effectiveFields: ["userName", "shortAccount"],
+			 searchFields: [ "shortAccount"],
+			 effectiveFieldsAlias:{userName: "姓名"},*/
+			idField : "id",
+			keyField : "roleName",
+			autoSelect : true,
+			/* getDataMethod: "url", */
+		}).on('onDataRequestSuccess', function(e, result) {
+			//数据加载后执行
+			//console.log('onDataRequestSuccess: ', result);
+		}).on('onSetSelectValue', function(e, keyword) {
+			//选择了之后执行
+			//console.log('onSetSelectValue: ', keyword);
+			$("#roleId").val(keyword.id);
+		}).on('onUnsetSelectValue', function(e) {
+			//没选择执行
+			//console.log("onUnsetSelectValue");
+			$("#roleId").val("");
 		});
 		
 	})

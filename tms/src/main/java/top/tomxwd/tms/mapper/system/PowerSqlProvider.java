@@ -247,4 +247,8 @@ public class PowerSqlProvider {
     	return sql;
     }
     
+    public String selectRoleHavingPowerListById(Map<String, Object> map) {
+    	return "select t2.id id,t2.power_name powerName from t_role_power t1 join t_power t2 on t1.power_id = t2.id where t1.role_id = #{roleId}";
+    }
+    
 }

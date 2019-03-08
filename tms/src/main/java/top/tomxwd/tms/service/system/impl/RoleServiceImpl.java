@@ -1,6 +1,8 @@
 package top.tomxwd.tms.service.system.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,8 +10,11 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import top.tomxwd.tms.mapper.system.RoleAndPowerMapper;
 import top.tomxwd.tms.mapper.system.RoleMapper;
 import top.tomxwd.tms.pojo.system.Role;
+import top.tomxwd.tms.pojo.system.RoleAndPower;
+import top.tomxwd.tms.pojo.system.RoleAndPowerExample;
 import top.tomxwd.tms.pojo.system.RoleExample;
 import top.tomxwd.tms.service.system.RoleService;
 import top.tomxwd.tms.vo.MsgObj;
@@ -20,6 +25,8 @@ public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
 	private RoleMapper mapper;
+	@Autowired
+	private RoleAndPowerMapper roleAndPowerMapper;
 	
 	@Override
 	public Boolean findRoleExistByName(String roleName) {
@@ -34,7 +41,18 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public PageObj<Role> powerList(PageObj<Role> pageObj) {
+	public Boolean findRoleExistOrSame(String roleName, String roleNameCheck) {
+		Boolean b = false;
+		if(roleName.equals(roleNameCheck)) {
+			b = true;
+		}else {
+			b = findRoleExistByName(roleName);
+		}
+		return b;
+	}
+	
+	@Override
+	public PageObj<Role> roleList(PageObj<Role> pageObj) {
 		//PageHelper初始化
 		PageHelper.startPage(pageObj.getPage(), pageObj.getRows());
 		RoleExample example = new RoleExample();
@@ -52,9 +70,10 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public MsgObj insertRole(Role role) {
 		int i = mapper.insertSelective(role);
+		int j = roleAndPowerMapper.insertAllRecords(role);
 		MsgObj msgObj = new MsgObj();
 		msgObj.setOk(i);
-		if(i==1) {
+		if(i!=0&&j!=0) {
 			msgObj.setMsg("添加角色成功！");
 		}else {
 			msgObj.setMsg("系统故障!添加角色失败！");
@@ -65,11 +84,16 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public MsgObj updateRole(Role role) {
 		int i = mapper.updateByPrimaryKeySelective(role);
+		RoleAndPowerExample example = new RoleAndPowerExample();
+		example.createCriteria().andRoleIdEqualTo(role.getId());
+		int j = roleAndPowerMapper.deleteByExample(example);
+		int k = roleAndPowerMapper.insertAllRecords(role);
 		MsgObj msgObj = new MsgObj();
-		msgObj.setOk(i);
-		if(i==1) {
+		if(i==1&&j!=0&&k!=0) {
+			msgObj.setOk(1);
 			msgObj.setMsg("编辑角色成功！");
 		}else {
+			msgObj.setOk(0);
 			msgObj.setMsg("系统故障!编辑角色失败！");
 		}
 		return msgObj;
@@ -78,14 +102,27 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public MsgObj deleteRoleById(Integer id) {
 		int i = mapper.deleteByPrimaryKey(id);
+		RoleAndPowerExample example = new RoleAndPowerExample();
+		example.createCriteria().andRoleIdEqualTo(id);
+		int j = roleAndPowerMapper.deleteByExample(example);
 		MsgObj msgObj = new MsgObj();
-		msgObj.setOk(i);
-		if(i==1) {
+		if(i==1&&j!=0) {
+			msgObj.setOk(1);
 			msgObj.setMsg("删除角色成功！");
 		}else {
+			msgObj.setOk(0);
 			msgObj.setMsg("系统故障！删除角色失败！");
 		}
 		return msgObj;
 	}
+
+	@Override
+	public Map<String, Object> getAllRole() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String,Object>> list = mapper.selectAllRole();
+		map.put("value", list);
+		return map;
+	}
+
 
 }

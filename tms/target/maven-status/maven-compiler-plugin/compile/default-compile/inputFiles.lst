@@ -1,11 +1,13 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/MsgObj.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/controller/PageController.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/impl/RoleServiceImpl.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/Power.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/QueryObj.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/PowerExample.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/controller/system/SysuserController.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/PageObj.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/SysuserMapper.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/controller/system/RoleController.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/utils/UpLoadUtils.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/ModularService.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/controller/system/ModularController.java
@@ -23,6 +25,7 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/SysuserExample.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/ModularSqlProvider.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/RoleAndPowerExample.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/RoleService.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/PowerService.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/RoleExample.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/RoleMapper.java

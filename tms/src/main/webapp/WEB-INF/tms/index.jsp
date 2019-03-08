@@ -84,7 +84,7 @@
 							class="nav-label">角色管理</span> <span class="fa arrow"></span>
 					</a>
 						<ul class="nav nav-second-level">
-							<li><a class="J_menuItem" href="${ctx}/role/toAddRole" data-index="0">添加橘色</a></li>
+							<li><a class="J_menuItem" href="${ctx}/role/toAddRole" data-index="0">添加角色</a></li>
 							<li><a class="J_menuItem" href="${ctx}/role/toRoleList" data-index="0">角色列表</a></li>
 						</ul>
 					</li>

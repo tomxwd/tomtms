@@ -96,4 +96,21 @@ public interface PowerMapper {
      */
     @SelectProvider(type=PowerSqlProvider.class,method="selectPowerListByKeyword")
 	List<Map<String,Object>> selectPowerListByKeyword(String keyword);
+    
+    /**
+     * 得到角色所拥有的权限列表
+     * @param map
+     * @return
+     */
+    @SelectProvider(type=PowerSqlProvider.class,method="selectRoleHavingPowerListById")
+	List<Map<String, Object>> selectRoleHavingPowerListById(Map<String, Object> map);
+    
+    /**
+     * 根据角色id查找其拥有的权限
+     * @param roleId
+     * @return
+     */
+    @Select("select t2.power_id from t_role t1 join t_role_power t2 on t1.id=t2.role_id where t1.id = #{roleId}")
+	List<Integer> selectPowersByRoleId(Integer roleId);
+    
 }

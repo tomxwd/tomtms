@@ -22,6 +22,7 @@
 
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/style.css?v=4.1.0" rel="stylesheet">
+<link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
 
 </head>
 
@@ -34,13 +35,14 @@
 						<div>
 							<div class="">
 								<div class="col-sm-3">
-									<span id="add_sysuser" class="btn btn-primary">添加用户</span>
+									<span id="add_role" class="btn btn-primary">添加角色</span>
 								</div>
 								<div class="col-sm-4">
-									<input id="search" placeholder="请输入需要查询的用户名或昵称" name="search" class="form-control"
-										type="text" class="valid">
+									<input id="search" placeholder="请输入需要查询的角色名" name="search"
+										class="form-control" type="text" class="valid">
 								</div>
-								<button onclick="searchList()" class="btn btn-primary" type="submit">查询</button>
+								<button onclick="searchList()" class="btn btn-primary"
+									type="submit">查询</button>
 							</div>
 						</div>
 					</div>
@@ -63,80 +65,39 @@
 					<button type="button" class="close" data-dismiss="modal">
 						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title">编辑用户</h4>
+					<h4 class="modal-title">编辑角色</h4>
 					<small class="font-bold"></small>
 				</div>
-					<form class="form-horizontal m-t" method="post" id="infoForm">
-				<div class="modal-body">
+				<form class="form-horizontal m-t" method="post" id="infoForm">
+					<div class="modal-body">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">用户id：</label>
 							<div class="col-sm-7">
-								<input id="id" name="id" readonly="readonly"  placeholder="用户id" class="form-control"
-									type="text"
-									class="valid">
+								<input id="id" name="id" readonly="readonly" placeholder="角色id"
+									class="form-control" type="text" class="valid">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">用户名：</label>
+							<label class="col-sm-3 control-label">角色名：</label>
 							<div class="col-sm-7">
-								<input id="username" name="username" readonly="readonly"  placeholder="请输入用户名" class="form-control"
-									type="text"
+								<input id="roleName" name="roleName" 
+									placeholder="请输入角色" class="form-control" type="text"
 									class="valid">
+								<input id="roleNameCheck" type="hidden">
 							</div>
 						</div>
+						<label class="col-sm-3 control-label">修改角色权限：</label>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">昵称：</label>
-							<div class="col-sm-7">
-								<input id="nickname" name="nickname" placeholder="请输入昵称" class="form-control"
-									type="text"
-									class="valid">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">电话：</label>
-							<div class="col-sm-7">
-								<input id="phone" placeholder="必填" name="phone" class="form-control"
-									type="text"
-									class="valid">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">电子邮箱：</label>
-							<div class="col-sm-7">
-								<input id="email" name="email" class="form-control"
-									type="text"
-									class="valid">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">QQ：</label>
-							<div class="col-sm-7">
-								<input id="qq" name="qq" class="form-control"
-									type="text"
-									class="valid">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">注册时间：</label>
-							<div class="col-sm-7">
-								<input id="regtime"  name="regtime" class="form-control"
-									type="text"
-									class="layer-date laydate-icon">
-							</div>
+							<div class="col-sm-3"></div>
+							<div id="powerTable" class="col-sm-6"></div>
 						</div>
 
-						<!-- <div class="form-group">
-							<div class="col-sm-offset-3 col-sm-8">
-								<button class="btn btn-sm btn-primary" type="submit">编辑完成</button>
-							</div>
-						</div> -->
-						
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-					<button type="submit" class="btn btn-primary">保存</button>
-				</div>
-					</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+						<button type="submit" class="btn btn-primary">保存</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -144,8 +105,6 @@
 	<!-- 全局js -->
 	<script src="${ctx}/js/jquery.min.js?v=2.1.4"></script>
 	<script src="${ctx}/js/bootstrap.min.js?v=3.3.6"></script>
-
-
 
 	<!-- Peity -->
 	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
@@ -156,160 +115,160 @@
 
 	<!-- 自定义js -->
 	<script src="${ctx}/js/content.js?v=1.0.0"></script>
-	
+
 	<!-- layerDate plugin javascript -->
 	<script src="${ctx}/js/plugins/layer/laydate/laydate.js"></script>
-	
+
 	<!-- layer javascript -->
 	<script src="${ctx}/js/plugins/layer/layer.min.js"></script>
-	
+
 	<!-- 表单校验jqueryvalidate -->
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<!-- 表单校验默认的提示字 -->
 	<script src="${ctx}/js/plugins/validate/messages_zh.min.js"></script>
+	
+	<!-- iCheck图标 -->
+	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
 
 	<!-- Page-Level Scripts -->
 	<script>
-		//日期格式化
-		function formatDate(value){
-			var time = new Date(value);
-			var year = time.getFullYear();
-			var month = time.getMonth() + 1;
-			var day = time.getDate();
-			return year + "-" + month + "-" + day;
-		}
-	
-		function formatter_date(cellvalue, options, rowObject) {
-			return formatDate(cellvalue);
-		}
-
-		function formatter_status(cellvalue, options, rowObject) {
-			if (cellvalue == 1) {
-				return "<span style='color:green'>在职</span>"
-			} else {
-				return "<span style='color:red'>离职</span>"
-			}
-		}
-
 		function formatter_operation(cellvalue, options, rowObject) {
 			var formObj = JSON.stringify(rowObject);
-			var editfunc = "onclick='editSysUser(" + formObj + ")'";
-			var dimissfunc = "onclick='dimissSysUser("+rowObject.id+","+rowObject.delstatus+")'";
-			var removefunc = "onclick='deleteSysUser("+rowObject.id+")'";
+			var editfunc = "onclick='editRole(" + formObj + ")'";
+			var removefunc = "onclick='deleteRole(" + rowObject.id + ")'";
 			var editStr = "<a  class='btn btn-primary btn-sm'"+editfunc+"><i class='fa fa-paste'></i>编辑</a>";
-			if(rowObject.delstatus==1){
-				var dimissStr = "<a class='btn btn-warning btn-sm'"+dimissfunc+"><i class='fa fa-times'></i>离职</a>";
-			}else{
-				var dimissStr = "<a class='btn btn-info btn-sm'"+dimissfunc+"><i class='fa fa-check'></i>复职</a>";
-			}
 			var removeStr = "<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
-			return editStr+"&nbsp;&nbsp;&nbsp;&nbsp;"+dimissStr+"&nbsp;&nbsp;&nbsp;&nbsp;"+removeStr;
+			return editStr + "&nbsp;&nbsp;&nbsp;&nbsp;" + removeStr;
 		}
-		
-		function editSysUser(obj) {
+
+		function editRole(obj) {
 			/* $("#showModal").modal({
-                remote: "${ctx}/sysuser/showInfo/?id="+id
-            }); */
-            $("#id").val(obj.id);
-            $("#username").val(obj.username);
-            $("#nickname").val(obj.nickname);
-            $("#phone").val(obj.phone);
-            $("#qq").val(obj.qq);
-            $("#email").val(obj.email);
-            $("#regtime").val(formatDate(obj.regtime));
-            $("#myModal").modal('show');
-		}
+			    remote: "${ctx}/sysuser/showInfo/?id="+id
+			}); */
+			$("#id").val(obj.id);
+			$("#roleName").val(obj.roleName);
+			$("#roleNameCheck").val(obj.roleName);
 		
-		//离职复职按钮
-		function dimissSysUser(id,status) {
-			var statusStr;
-			if(status==1){
-				statusStr = "确定将该用户离职吗？";
-			}else{
-				statusStr = "确定将该用户复职吗？";
-			}
-			layer.confirm(statusStr,{title:'温馨提示',skin: 'layui-layer-molv'},function(index){
-				$.get("${ctx}/sysuser/dimissOrRestore",{id:id,delstatus:status},function(data){
-					layer.alert(data.msg, {
-						skin: 'layui-layer-molv', //样式类名
-						shift:4
-						});
-					$("#table_list_1").trigger("reloadGrid");
-					layer.close(index);
-				});
-			})
-		}
-		
-		//删除按钮事件
-		function deleteSysUser(id){
-			layer.confirm('确定删除该用户吗？删除后不可恢复',{icon:2 ,title:'温馨提示',skin: 'layui-layer-molv'},function(index){
-				$.get("${ctx}/sysuser/deleteSysuser",{id:id},function(data){
-					layer.alert(data.msg, {
-						skin: 'layui-layer-molv', //样式类名
-						shift:4
-						});
-					$("#table_list_1").trigger("reloadGrid");
-					layer.close(index);
-				});
-			})
+			//塞内容
+			$.ajax({
+			    url: "${ctx}/power/getAllPowerToRole",
+			    async: false,
+			    success: function(data) {
+			    	var htmlVal = "";
+					var dt;
+					var power;
+					var count;
+					for(var i=0;i<data.length;i++){
+						dt = data[i];
+						htmlVal += "<br><b>"+dt.modular.modularName+"</b>"
+						htmlVal += "<table  class='table table-bordered'><tbody><tr>";
+						count = 0;
+						for(var j=0;j<dt.powers.length;j++){
+							count++;
+							power = dt.powers[j];
+							htmlVal += "<td><input type='checkbox' value='"+power.id+"' class='i-checks' name='powers'> <i><i>"+power.powerName+"</td>"
+							if(count%2==0){
+								htmlVal += "</tr><tr>"
+							}
+						}
+						htmlVal += "</tr></tbody></table>";
+					}
+					$("#powerTable").html(htmlVal);
+					$.get("${ctx}/power/getRoleOwnPowers",{roleId:obj.id},function(powerIds){
+						var powers = $("input[name='powers']");
+						for(var i=0;i<powers.length;i++){
+							for(var j=0;j<powerIds.length;j++){
+								if(powerIds[j]==powers[i].value){
+									$(powers[i]).parent().addClass("checked")
+									$(powers[i]).iCheck('check');
+								}
+							}
+						}
+					})
+			    }
+			});
 			
+			//iCheck初始化
+			$('.i-checks').iCheck({
+				checkboxClass : 'icheckbox_square-green',
+				radioClass : 'iradio_square-green',
+			});
+
+			$("#myModal").modal('show');
 		}
-		
-		function searchList(){
+
+		//删除按钮事件
+		function deleteRole(id) {
+			layer.confirm('确定删除该角色吗？删除后不可恢复', {
+				icon : 2,
+				title : '温馨提示',
+				skin : 'layui-layer-molv'
+			}, function(index) {
+				$.get("${ctx}/role/deleteRole", {
+					id : id
+				}, function(data) {
+					layer.alert(data.msg, {
+						skin : 'layui-layer-molv', //样式类名
+						shift : 4
+					});
+					$("#table_list_1").trigger("reloadGrid");
+					layer.close(index);
+				});
+			})
+
+		}
+
+		function searchList() {
 			var search = $("#search").val();
 			/* if(search){
 				console.log(search);
 				$("#table_list_1").jqGrid('setGridParam',{ 
-	                url:"${ctx}/sysuser/sysuserlist",
-	                postData:{'searchNameOrNickName':search}, //发送数据 
-	                page:1 
-	            }).trigger("reloadGrid"); //重新载入
+			        url:"${ctx}/sysuser/sysuserlist",
+			        postData:{'searchNameOrNickName':search}, //发送数据 
+			        page:1 
+			    }).trigger("reloadGrid"); //重新载入
 			}else{
 				layer.alert("查询条件不能为空！", {
 					skin: 'layui-layer-molv', //样式类名
 					shift:4
 					});
 			} */
-			$("#table_list_1").jqGrid('setGridParam',{ 
-                url:"${ctx}/sysuser/sysuserList",
-                postData:{'keyword':search}, //发送数据 
-                page:1 
-            }).trigger("reloadGrid"); //重新载入
+			$("#table_list_1").jqGrid('setGridParam', {
+				url : "${ctx}/role/roleList",
+				postData : {
+					'keyword' : search
+				}, //发送数据 
+				page : 1
+			}).trigger("reloadGrid"); //重新载入
 		}
 
-		$(document).ready(
-				function() {
-				//初始化日历插件	
-				laydate({
-					event:"focus",
-					elem:"#regtime",
-				});
-				
-				//搜索框绑定事件
-				$("#search").keyup(function(event){
-					if(event.keyCode==13){
-						searchList();
-					}
-				});
-				
-				//为添加用户按钮绑定事件
-				$("#add_sysuser").click(function(){
-					layer.open({
-						  type: 2, 
-						  content: "${ctx}/sysuser/toAddSysuser", //这里content是一个普通的String
-						  area: ['500px', '500px'],
-						  btn: ['yes', 'no']
-						});
-				});
-				
+		$(document)
+				.ready(
+						function() {
 
-					$.jgrid.defaults.styleUI = 'Bootstrap';
+							//搜索框绑定事件
+							$("#search").keyup(function(event) {
+								if (event.keyCode == 13) {
+									searchList();
+								}
+							});
 
-					// Configuration for jqGrid Example 1
-					$("#table_list_1").jqGrid(
-							{
+							//为添加用户按钮绑定事件
+							$("#add_role").click(function() {
+								layer.open({
+									type : 2,
+									content : "${ctx}/role/toAddRole", //这里content是一个普通的String
+									area : [ '500px', '500px' ],
+									btn : [ 'yes', 'no' ]
+								});
+							});
+
+							$.jgrid.defaults.styleUI = 'Bootstrap';
+
+							// Configuration for jqGrid Example 1
+							$("#table_list_1").jqGrid({
 								mtype : 'POST',
-								url : "${ctx}/sysuser/sysuserList",
+								url : "${ctx}/role/roleList",
 								datatype : "json",
 								jsonReader : {
 									root : 'root',//数据
@@ -325,117 +284,131 @@
 								rowNum : 10,
 								rowList : [ 10, 20, 30, 50 ],
 								emptyrecords : '没有符合条件的数据！',
-								colNames : [ 'id号', '用户名', '昵称', '电话', '邮箱',
-										'QQ号', '注册时间', '状态', '操作' ],
+								colNames : [ '序号', '角色名', '操作' ],
 								colModel : [ {
 									name : 'id',
-									width : 60,
+									width : 170,
 								}, {
-									name : 'username',
-									width : 90,
-								}, {
-									name : 'nickname',
-									width : 80
-								}, {
-									name : 'phone',
-									width : 80,
-								}, {
-									name : 'email',
-									width : 150,
-								}, {
-									name : 'qq',
-									width : 100,
-								}, {
-									name : 'regtime',
-									width : 150,
-									formatter : formatter_date,
-								}, {
-									name : 'delstatus',
-									width : 80,
-									formatter : formatter_status,
+									name : 'roleName',
+									width : 170,
 								}, {
 									width : 200,
 									formatter : formatter_operation,
 								} ],
 								pager : "#pager_list_1",
 								viewrecords : true,
-								caption : "用户信息列表",
+								caption : "角色信息列表",
 								hidegrid : false
 							});
-					//使用自带的查询添加等功能
-					/* $("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
-						edit : false,
-						add : false,
-						refresh: false,
-						del : false,
-						search : false
-					}, {
-						height : 200,
-						reloadAfterSubmit : true
-					}).jqGrid('navButtonAdd','#pager_list_1',{
-						caption:"<span style='width:100px;heigth:100px' class='btn-primary'>添加</span>",
-						buttonicon:"ui-icon-del",
-						onClickButton: function(){   
-							alert("Deleting Row");  
-						},   
-					}); */
-					
+							//使用自带的查询添加等功能
+							/* $("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
+								edit : false,
+								add : false,
+								refresh: false,
+								del : false,
+								search : false
+							}, {
+								height : 200,
+								reloadAfterSubmit : true
+							}).jqGrid('navButtonAdd','#pager_list_1',{
+								caption:"<span style='width:100px;heigth:100px' class='btn-primary'>添加</span>",
+								buttonicon:"ui-icon-del",
+								onClickButton: function(){   
+									alert("Deleting Row");  
+								},   
+							}); */
 
-					/* jquery Validate 添加自定义校验规则 */
-					/* $.validator.addMethod(name,method,message) */
-					$.validator.addMethod("checkPhone",function(value,element,param){
-						var pattern = /^1[3,4,5,8,9][0-9]{9}$/
-						return pattern.test(value);
-					},"请输入11位有效的手机号码")
-					
-					/* jquery Validate 初始化 */
-					$("#infoForm").validate({
-						rules:{
-							nickname:"required",
-							phone:{
-								required:true,
-								checkPhone:true
-							},
-							email:"required",
-							qq:"required",
-							regtime:"required",
-						},messages:{
-							nickname:"昵称不能为空",
-							phone:{
-								required:"电话不能为空",
-								checkPhone:"请输入11位有效的手机号码"
-							},
-							email:"邮箱不能为空",
-							qq:"qq不能为空",
-							regtime:" 注册日期不能为空",
-						},submitHandler:function(){
-							//1、序列化表单
-							var formDate = $("#infoForm").serialize();
-							//2、使用ajax请求提交
-							/* $.post("${ctx}/sysuser/adduser",{uname:$("#uname").val(),pwd:$("#pwd").val(),nickname:$("#nickname").val(),regtime:$("#regtime").val()},function(data){
-								console.log(data);
-							}) */
-							$.post("${ctx}/sysuser/editSysuser",formDate,function(data){
-								if(data.ok==1){
-									layer.alert(data.msg, {
-										skin: 'layui-layer-molv', //样式类名
-										shift:4
-										},function(index){
-											layer.close(index);
-										});
-								}else{
-									parent.layer.alert(data.msg,{
-										skin: 'layui-layer-molv',
-										shift:4
-									});
-								}
-								$("#myModal").modal('hide');
-								$("#table_list_1").trigger("reloadGrid");
-							})
-						}
-					});
+							/* jquery Validate 添加自定义校验规则 */
+							/* $.validator.addMethod(name,method,message) */
+							$.validator.addMethod("checkPhone", function(value,
+									element, param) {
+								var pattern = /^1[3,4,5,8,9][0-9]{9}$/
+								return pattern.test(value);
+							}, "请输入11位有效的手机号码")
 
-				});
+							/* jquery Validate 初始化 */
+							$("#infoForm")
+									.validate(
+											{
+												rules : {
+													roleName : {
+														required : true,
+														remote : {
+															url : "${ctx}/role/checkRoleNameExistOrSame",
+															type : "get",
+															dataType : "json",
+															data : {
+																roleName : function() {
+																	return $(
+																			"#roleName")
+																			.val();
+																},
+																roleNameCheck : function() {
+																	return $(
+																			"#roleNameCheck")
+																			.val();
+																}
+															},
+
+														},
+													},
+												},
+												messages : {
+													roleName : {
+														required : "角色名不能为空",
+														remote : "该角色已存在"
+													}
+												},
+												submitHandler : function() {
+													//1、序列化表单
+													var formDate = $(
+															"#infoForm")
+															.serialize();
+													//2、使用ajax请求提交
+													/* $.post("${ctx}/roleList/adduser",{uname:$("#uname").val(),pwd:$("#pwd").val(),nickname:$("#nickname").val(),regtime:$("#regtime").val()},function(data){
+														console.log(data);
+													}) */
+													$
+															.post(
+																	"${ctx}/role/editRole",
+																	formDate,
+																	function(
+																			data) {
+																		if (data.ok == 1) {
+																			layer
+																					.alert(
+																							data.msg,
+																							{
+																								skin : 'layui-layer-molv', //样式类名
+																								shift : 4
+																							},
+																							function(
+																									index) {
+																								layer
+																										.close(index);
+																							});
+																		} else {
+																			parent.layer
+																					.alert(
+																							data.msg,
+																							{
+																								skin : 'layui-layer-molv',
+																								shift : 4
+																							});
+																		}
+																		$(
+																				"#myModal")
+																				.modal(
+																						'hide');
+																		$(
+																				"#table_list_1")
+																				.trigger(
+																						"reloadGrid");
+																	})
+												}
+											});
+
+						});
 	</script>
 
 </body>

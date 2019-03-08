@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import top.tomxwd.tms.pojo.system.Role;
 import top.tomxwd.tms.pojo.system.RoleAndPower;
 import top.tomxwd.tms.pojo.system.RoleAndPowerExample;
 
@@ -79,4 +80,12 @@ public interface RoleAndPowerMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(RoleAndPower record);
+    
+    /**
+     * 批量插入记录
+     * @param role
+     * @return
+     */
+    @Insert("<script>insert into t_role_power (role_id,power_id) values <foreach item='item' index='index' collection='powers' separator=','> (#{id},#{item}) </foreach></script>")
+	int insertAllRecords(Role role);
 }

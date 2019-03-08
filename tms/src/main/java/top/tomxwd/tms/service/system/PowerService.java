@@ -1,5 +1,6 @@
 package top.tomxwd.tms.service.system;
 
+import java.util.List;
 import java.util.Map;
 
 import top.tomxwd.tms.pojo.system.Power;
@@ -50,6 +51,20 @@ public interface PowerService {
 	 * @return
 	 */
 	Boolean findPowerExistOrSameByName(String powerName, String powerNameCheck);
+	
+	
+	/**
+	 * 找到所属模块以及模块下的所有权限
+	 * @return
+	 */
+	List<Map<String, Object>> selectAllPowerAndModularName();
+	
+	/**
+	 * 根据角色id找到所有权限
+	 * @param roleId
+	 * @return
+	 */
+	List<Integer> selectRoleOwnPowers(Integer roleId);
 	
 	
 }

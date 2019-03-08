@@ -1,5 +1,7 @@
 package top.tomxwd.tms.service.system;
 
+import java.util.Map;
+
 import top.tomxwd.tms.pojo.system.Role;
 import top.tomxwd.tms.vo.MsgObj;
 import top.tomxwd.tms.vo.PageObj;
@@ -18,7 +20,7 @@ public interface RoleService {
 	 * @param pageObj
 	 * @return
 	 */
-	PageObj<Role> powerList(PageObj<Role> pageObj);
+	PageObj<Role> roleList(PageObj<Role> pageObj);
 	
 	/**
 	 * 添加新角色
@@ -40,6 +42,20 @@ public interface RoleService {
 	 * @return
 	 */
 	MsgObj deleteRoleById(Integer id);
+	
+	/**
+	 * 查找该角色名是否相同或已存在
+	 * @param roleName
+	 * @param roleNameCheck
+	 * @return
+	 */
+	Boolean findRoleExistOrSame(String roleName, String roleNameCheck);
+	
+	/**
+	 * 查找所有角色，供用户选择
+	 * @return
+	 */
+	Map<String, Object> getAllRole();
 
 	
 	
