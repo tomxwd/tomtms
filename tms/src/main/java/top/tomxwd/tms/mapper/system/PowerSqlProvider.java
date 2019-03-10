@@ -12,7 +12,7 @@ import top.tomxwd.tms.pojo.system.PowerExample.Criterion;
 
 public class PowerSqlProvider {
 
-    public String countByExample(PowerExample example) {
+	public String countByExample(PowerExample example) {
         SQL sql = new SQL();
         sql.SELECT("count(*)").FROM("t_power");
         applyWhere(sql, example, false);
@@ -50,6 +50,10 @@ public class PowerSqlProvider {
             sql.VALUES("modular_id", "#{modularId,jdbcType=INTEGER}");
         }
         
+        if (record.getPrecode() != null) {
+            sql.VALUES("precode", "#{precode,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -64,6 +68,7 @@ public class PowerSqlProvider {
         sql.SELECT("power_action");
         sql.SELECT("power_display");
         sql.SELECT("modular_id");
+        sql.SELECT("precode");
         sql.FROM("t_power");
         applyWhere(sql, example, false);
         
@@ -101,6 +106,10 @@ public class PowerSqlProvider {
             sql.SET("modular_id = #{record.modularId,jdbcType=INTEGER}");
         }
         
+        if (record.getPrecode() != null) {
+            sql.SET("precode = #{record.precode,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -114,6 +123,7 @@ public class PowerSqlProvider {
         sql.SET("power_action = #{record.powerAction,jdbcType=VARCHAR}");
         sql.SET("power_display = #{record.powerDisplay,jdbcType=INTEGER}");
         sql.SET("modular_id = #{record.modularId,jdbcType=INTEGER}");
+        sql.SET("precode = #{record.precode,jdbcType=VARCHAR}");
         
         PowerExample example = (PowerExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -138,6 +148,10 @@ public class PowerSqlProvider {
         
         if (record.getModularId() != null) {
             sql.SET("modular_id = #{modularId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getPrecode() != null) {
+            sql.SET("precode = #{precode,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
@@ -250,5 +264,4 @@ public class PowerSqlProvider {
     public String selectRoleHavingPowerListById(Map<String, Object> map) {
     	return "select t2.id id,t2.power_name powerName from t_role_power t1 join t_power t2 on t1.power_id = t2.id where t1.role_id = #{roleId}";
     }
-    
 }

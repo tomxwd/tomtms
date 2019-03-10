@@ -1,59 +1,63 @@
 package top.tomxwd.tms.pojo.system;
 
 public class Power {
-    @Override
-	public String toString() {
-		return "Power [id=" + id + ", powerName=" + powerName + ", powerAction=" + powerAction + ", powerDisplay="
-				+ powerDisplay + ", modularId=" + modularId + "]";
-	}
-
 	private Integer id;
 
-    private String powerName;
+	private String powerName;
 
-    private String powerAction;
+	private String powerAction;
 
-    private Integer powerDisplay;
+	private Integer powerDisplay;
 
-    private Integer modularId;
+	private Integer modularId;
 
-    public Integer getId() {
-        return id;
-    }
+	private String precode;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getPowerName() {
-        return powerName;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setPowerName(String powerName) {
-        this.powerName = powerName;
-    }
+	public String getPowerName() {
+		return powerName;
+	}
 
-    public String getPowerAction() {
-        return powerAction;
-    }
+	public void setPowerName(String powerName) {
+		this.powerName = powerName;
+	}
 
-    public void setPowerAction(String powerAction) {
-        this.powerAction = powerAction;
-    }
+	public String getPowerAction() {
+		return powerAction;
+	}
 
-    public Integer getPowerDisplay() {
-        return powerDisplay;
-    }
+	public void setPowerAction(String powerAction) {
+		this.powerAction = powerAction;
+	}
 
-    public void setPowerDisplay(Integer powerDisplay) {
-        this.powerDisplay = powerDisplay;
-    }
+	public Integer getPowerDisplay() {
+		return powerDisplay;
+	}
 
-    public Integer getModularId() {
-        return modularId;
-    }
+	public void setPowerDisplay(Integer powerDisplay) {
+		this.powerDisplay = powerDisplay;
+	}
 
-    public void setModularId(Integer modularId) {
-        this.modularId = modularId;
-    }
+	public Integer getModularId() {
+		return modularId;
+	}
+
+	public void setModularId(Integer modularId) {
+		this.modularId = modularId;
+	}
+
+	public String getPrecode() {
+		return precode;
+	}
+
+	public void setPrecode(String precode) {
+		this.precode = precode;
+	}
 }

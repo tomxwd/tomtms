@@ -132,6 +132,11 @@ public class PowerServiceImpl implements PowerService {
 		return mapper.selectPowersByRoleId(roleId);
 	}
 
+	@Override
+	public List<Power> selectUserPowersByUserId(Integer userId) {
+		return mapper.selectUserPowersByUserId(userId);
+	}
+
 	
 
 

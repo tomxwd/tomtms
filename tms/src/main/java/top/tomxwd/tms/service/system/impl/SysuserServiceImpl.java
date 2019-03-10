@@ -169,4 +169,16 @@ public class SysuserServiceImpl implements SysuserService{
 		return msgObj;
 	}
 
+	@Override
+	public Sysuser findSysuserInfoByUserName(String username) {
+		Sysuser user = null;
+		SysuserExample example = new SysuserExample();
+		example.createCriteria().andUsernameEqualTo(username);
+		List<Sysuser> list = sysuserMapper.selectByExample(example);
+		if(list.size()!=0) {
+			user = list.get(0);
+		}
+		return user;
+	}
+
 }

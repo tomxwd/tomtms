@@ -20,7 +20,7 @@ import top.tomxwd.tms.pojo.system.Power;
 import top.tomxwd.tms.pojo.system.PowerExample;
 
 public interface PowerMapper {
-    @SelectProvider(type=PowerSqlProvider.class, method="countByExample")
+	@SelectProvider(type=PowerSqlProvider.class, method="countByExample")
     long countByExample(PowerExample example);
 
     @DeleteProvider(type=PowerSqlProvider.class, method="deleteByExample")
@@ -35,10 +35,10 @@ public interface PowerMapper {
     @Insert({
         "insert into t_power (id, power_name, ",
         "power_action, power_display, ",
-        "modular_id)",
+        "modular_id, precode)",
         "values (#{id,jdbcType=INTEGER}, #{powerName,jdbcType=VARCHAR}, ",
         "#{powerAction,jdbcType=VARCHAR}, #{powerDisplay,jdbcType=INTEGER}, ",
-        "#{modularId,jdbcType=INTEGER})"
+        "#{modularId,jdbcType=INTEGER}, #{precode,jdbcType=VARCHAR})"
     })
     int insert(Power record);
 
@@ -51,13 +51,14 @@ public interface PowerMapper {
         @Result(column="power_name", property="powerName", jdbcType=JdbcType.VARCHAR),
         @Result(column="power_action", property="powerAction", jdbcType=JdbcType.VARCHAR),
         @Result(column="power_display", property="powerDisplay", jdbcType=JdbcType.INTEGER),
-        @Result(column="modular_id", property="modularId", jdbcType=JdbcType.INTEGER)
+        @Result(column="modular_id", property="modularId", jdbcType=JdbcType.INTEGER),
+        @Result(column="precode", property="precode", jdbcType=JdbcType.VARCHAR)
     })
     List<Power> selectByExample(PowerExample example);
 
     @Select({
         "select",
-        "id, power_name, power_action, power_display, modular_id",
+        "id, power_name, power_action, power_display, modular_id, precode",
         "from t_power",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -66,7 +67,8 @@ public interface PowerMapper {
         @Result(column="power_name", property="powerName", jdbcType=JdbcType.VARCHAR),
         @Result(column="power_action", property="powerAction", jdbcType=JdbcType.VARCHAR),
         @Result(column="power_display", property="powerDisplay", jdbcType=JdbcType.INTEGER),
-        @Result(column="modular_id", property="modularId", jdbcType=JdbcType.INTEGER)
+        @Result(column="modular_id", property="modularId", jdbcType=JdbcType.INTEGER),
+        @Result(column="precode", property="precode", jdbcType=JdbcType.VARCHAR)
     })
     Power selectByPrimaryKey(Integer id);
 
@@ -84,11 +86,11 @@ public interface PowerMapper {
         "set power_name = #{powerName,jdbcType=VARCHAR},",
           "power_action = #{powerAction,jdbcType=VARCHAR},",
           "power_display = #{powerDisplay,jdbcType=INTEGER},",
-          "modular_id = #{modularId,jdbcType=INTEGER}",
+          "modular_id = #{modularId,jdbcType=INTEGER},",
+          "precode = #{precode,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Power record);
-    
     /**
      * 权限列表
      * @param keyword
@@ -113,4 +115,11 @@ public interface PowerMapper {
     @Select("select t2.power_id from t_role t1 join t_role_power t2 on t1.id=t2.role_id where t1.id = #{roleId}")
 	List<Integer> selectPowersByRoleId(Integer roleId);
     
+    /**
+     * 根据用户id查找所有权限
+     * @param userId
+     * @return
+     */
+    @Select("select t1.id id,t1.power_name powerName,t1.power_action powerAction,t1.power_display powerDisplay,t1.modular_id modularId from t_power t1 join (select t2.power_id from t_sysuser t1 join t_role_power t2 on t1.role_id=t2.role_id where t1.id=#{userId})t2 on t1.id=t2.power_id")
+	List<Power> selectUserPowersByUserId(Integer userId);
 }

@@ -66,5 +66,10 @@ public interface PowerService {
 	 */
 	List<Integer> selectRoleOwnPowers(Integer roleId);
 	
-	
+	/**
+	 * 根据用户id来查所有权限
+	 * @param userId
+	 * @return
+	 */
+	List<Power> selectUserPowersByUserId(Integer userId);
 }

@@ -196,7 +196,6 @@ public class ModularSqlProvider {
             sql.WHERE(sb.toString());
         }
     }
-    
     public String modularList(QueryObj query) {
 		String sql = "select id,modular_name from t_modular ";
 		String keyword = query.getKeyword();

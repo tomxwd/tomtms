@@ -83,5 +83,4 @@ public interface ModularMapper {
      */
     @SelectProvider(type=ModularSqlProvider.class,method="modularList")
 	List<Modular> modularList(QueryObj queryObj);
-    
 }

@@ -28,6 +28,8 @@
 
 </head>
 <script type="text/javascript">
+	var msg2 = "${msg}"
+	console.log(msg2);
 //抖动js
 	jQuery.fn.shake = function (intShakes /*Amount of shakes*/, intDistance /*Shake distance*/, intDuration /*Time duration*/) {
 		      this.each(function () {
@@ -83,7 +85,7 @@
 				$("#verify_code").css("border","1px solid red");
 			}
 			if(uname.length&&pwd.length&&verify.length){
-				$.post("${ctx}/sysuser/login",{username:uname,password:pwd,verify:verify},function(data){
+				/* $.post("${ctx}/sysuser/login",{username:uname,password:pwd,verify:verify},function(data){
 					if(data.ok==0){
 						//$("#submit_btn").before("<span style='color:red;font-size:20px'>"+data.msg+"</span>")
 						//$("#errorMsg").text(data.msg);
@@ -96,8 +98,9 @@
 						window.location.href="${ctx}/toIndex"
 					}else{
 						alert("网络错误，请稍后再试");
-					}
-				});
+					} 
+				}); */
+				$("#loginForm").submit();
 			}
 		});
 		
@@ -120,21 +123,21 @@
 				</div>
 			</div>
 			<div class="col-sm-5">
-				<form method="post">
+				<form id="loginForm" method="post">
 					<h4 class="no-margins">登录：</h4>
 					<p class="m-t-md">登录到tomxwd的出租车管理系统</p>
 					<div class="form-group has-error">
 						<label class="control-label" for="inputError1" id="inputErrorid">欢迎使用本系统！</label>
 					</div>
-					<input id="uname" onblur="changeInput('uname','账号不能为空！')" type="text" class="form-control uname" placeholder="用户名" />
-					<input id="pwd" onblur="changeInput('pwd','密码不能为空！')" type="password" class="form-control pword m-b"
+					<input id="uname" name="username" onblur="changeInput('uname','账号不能为空！')" type="text" class="form-control uname" placeholder="用户名" />
+					<input id="pwd" name="password" onblur="changeInput('pwd','密码不能为空！')" type="password" class="form-control pword m-b"
 						placeholder="密码" />
 					<p style="text-align:right;"><a id="forget" style="color: white" href="">忘记密码了？</a></p>
 					
 							<!-- <input style="color: black;width: 100px" type="text"
 							name="verifycode" maxlength="4" class="form-control  code	"
 							width="50%" placeholder="验证码" />  -->
-							<input id="verify_code" onblur="changeInput('verify_code','验证码不能为空！')" placeholder="验证码" style="color: black;font-size:14px;width:157px;height: 34px;padding-left:10px;" maxlength="4" class="code" />
+							<input id="verify_code" name="verify" onblur="changeInput('verify_code','验证码不能为空！')" placeholder="验证码" style="color: black;font-size:14px;width:157px;height: 34px;padding-left:10px;" maxlength="4" class="code" />
 							<img id="verify_img" style="margin-bottom: 5px;cursor: pointer;" alt="验证码" title="看不清，换一张 " src="${ctx}/validate/image.jsp">
 					
 					<p style="text-align:right;"><a style="color: white" id="verId2">看不清？点击可更换</a></p>

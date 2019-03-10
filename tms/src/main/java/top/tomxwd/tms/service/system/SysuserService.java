@@ -66,5 +66,13 @@ public interface SysuserService {
 	 * @return
 	 */
 	MsgObj updateSysuser(Sysuser user);
-
+	
+	/**
+	 * shiro使用
+	 * 根据用户名,返回用户信息
+	 * @param username
+	 * @return
+	 */
+	Sysuser findSysuserInfoByUserName(String username);
+	
 }

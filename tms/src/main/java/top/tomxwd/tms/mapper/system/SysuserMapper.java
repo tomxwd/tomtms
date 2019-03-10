@@ -17,7 +17,6 @@ import org.apache.ibatis.type.JdbcType;
 
 import top.tomxwd.tms.pojo.system.Sysuser;
 import top.tomxwd.tms.pojo.system.SysuserExample;
-import top.tomxwd.tms.vo.QueryObj;
 
 public interface SysuserMapper {
     @SelectProvider(type=SysuserSqlProvider.class, method="countByExample")
@@ -37,12 +36,14 @@ public interface SysuserMapper {
         "nickname, delstatus, ",
         "password, phone, ",
         "email, qq, regtime, ",
-        "img, dept_id, role_id)",
+        "img, dept_id, role_id, ",
+        "salt)",
         "values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, ",
         "#{nickname,jdbcType=VARCHAR}, #{delstatus,jdbcType=INTEGER}, ",
         "#{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, ",
         "#{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{regtime,jdbcType=DATE}, ",
-        "#{img,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})"
+        "#{img,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, ",
+        "#{salt,jdbcType=VARCHAR})"
     })
     int insert(Sysuser record);
 
@@ -62,14 +63,15 @@ public interface SysuserMapper {
         @Result(column="regtime", property="regtime", jdbcType=JdbcType.DATE),
         @Result(column="img", property="img", jdbcType=JdbcType.VARCHAR),
         @Result(column="dept_id", property="deptId", jdbcType=JdbcType.INTEGER),
-        @Result(column="role_id", property="roleId", jdbcType=JdbcType.INTEGER)
+        @Result(column="role_id", property="roleId", jdbcType=JdbcType.INTEGER),
+        @Result(column="salt", property="salt", jdbcType=JdbcType.VARCHAR)
     })
     List<Sysuser> selectByExample(SysuserExample example);
 
     @Select({
         "select",
         "id, username, nickname, delstatus, password, phone, email, qq, regtime, img, ",
-        "dept_id, role_id",
+        "dept_id, role_id, salt",
         "from t_sysuser",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -85,7 +87,8 @@ public interface SysuserMapper {
         @Result(column="regtime", property="regtime", jdbcType=JdbcType.DATE),
         @Result(column="img", property="img", jdbcType=JdbcType.VARCHAR),
         @Result(column="dept_id", property="deptId", jdbcType=JdbcType.INTEGER),
-        @Result(column="role_id", property="roleId", jdbcType=JdbcType.INTEGER)
+        @Result(column="role_id", property="roleId", jdbcType=JdbcType.INTEGER),
+        @Result(column="salt", property="salt", jdbcType=JdbcType.VARCHAR)
     })
     Sysuser selectByPrimaryKey(Integer id);
 
@@ -110,11 +113,11 @@ public interface SysuserMapper {
           "regtime = #{regtime,jdbcType=DATE},",
           "img = #{img,jdbcType=VARCHAR},",
           "dept_id = #{deptId,jdbcType=INTEGER},",
-          "role_id = #{roleId,jdbcType=INTEGER}",
+          "role_id = #{roleId,jdbcType=INTEGER},",
+          "salt = #{salt,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Sysuser record);
-    	
     /**
      * 查询用户列表
      * @param query

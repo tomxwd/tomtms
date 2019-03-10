@@ -80,7 +80,6 @@ public interface RoleAndPowerMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(RoleAndPower record);
-    
     /**
      * 批量插入记录
      * @param role

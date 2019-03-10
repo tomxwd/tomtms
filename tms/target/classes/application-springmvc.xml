@@ -35,6 +35,13 @@
 		<!-- 设置上传文件的最大尺寸为1MB -->
 		<property name="maxUploadSize" value="#{1024 * 1024}"></property>
 	</bean>
+	
+	<!-- 给shiro注解权限开启aop代理 -->
+	<aop:config proxy-target-class="true"></aop:config>
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
 
 
 </beans>

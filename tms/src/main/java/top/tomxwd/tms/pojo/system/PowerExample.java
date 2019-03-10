@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PowerExample {
-    protected String orderByClause;
+	protected String orderByClause;
 
     protected boolean distinct;
 
@@ -421,6 +421,76 @@ public class PowerExample {
 
         public Criteria andModularIdNotBetween(Integer value1, Integer value2) {
             addCriterion("modular_id not between", value1, value2, "modularId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeIsNull() {
+            addCriterion("precode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeIsNotNull() {
+            addCriterion("precode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeEqualTo(String value) {
+            addCriterion("precode =", value, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeNotEqualTo(String value) {
+            addCriterion("precode <>", value, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeGreaterThan(String value) {
+            addCriterion("precode >", value, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeGreaterThanOrEqualTo(String value) {
+            addCriterion("precode >=", value, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeLessThan(String value) {
+            addCriterion("precode <", value, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeLessThanOrEqualTo(String value) {
+            addCriterion("precode <=", value, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeLike(String value) {
+            addCriterion("precode like", value, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeNotLike(String value) {
+            addCriterion("precode not like", value, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeIn(List<String> values) {
+            addCriterion("precode in", values, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeNotIn(List<String> values) {
+            addCriterion("precode not in", values, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeBetween(String value1, String value2) {
+            addCriterion("precode between", value1, value2, "precode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrecodeNotBetween(String value1, String value2) {
+            addCriterion("precode not between", value1, value2, "precode");
             return (Criteria) this;
         }
     }

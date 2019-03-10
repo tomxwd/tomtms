@@ -13,14 +13,7 @@ public class Sysuser {
 
     private Integer delstatus;
 
-    @Override
-	public String toString() {
-		return "Sysuser [id=" + id + ", username=" + username + ", nickname=" + nickname + ", delstatus=" + delstatus
-				+ ", password=" + password + ", phone=" + phone + ", email=" + email + ", qq=" + qq + ", regtime="
-				+ regtime + ", img=" + img + ", deptId=" + deptId + ", roleId=" + roleId + "]";
-	}
-
-	private String password;
+    private String password;
 
     private String phone;
 
@@ -36,6 +29,8 @@ public class Sysuser {
     private Integer deptId;
 
     private Integer roleId;
+
+    private String salt;
 
     public Integer getId() {
         return id;
@@ -131,5 +126,13 @@ public class Sysuser {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }

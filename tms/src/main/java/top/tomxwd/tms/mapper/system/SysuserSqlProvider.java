@@ -9,7 +9,6 @@ import top.tomxwd.tms.pojo.system.Sysuser;
 import top.tomxwd.tms.pojo.system.SysuserExample;
 import top.tomxwd.tms.pojo.system.SysuserExample.Criteria;
 import top.tomxwd.tms.pojo.system.SysuserExample.Criterion;
-import top.tomxwd.tms.vo.QueryObj;
 
 public class SysuserSqlProvider {
 
@@ -79,6 +78,10 @@ public class SysuserSqlProvider {
             sql.VALUES("role_id", "#{roleId,jdbcType=INTEGER}");
         }
         
+        if (record.getSalt() != null) {
+            sql.VALUES("salt", "#{salt,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -100,6 +103,7 @@ public class SysuserSqlProvider {
         sql.SELECT("img");
         sql.SELECT("dept_id");
         sql.SELECT("role_id");
+        sql.SELECT("salt");
         sql.FROM("t_sysuser");
         applyWhere(sql, example, false);
         
@@ -165,6 +169,10 @@ public class SysuserSqlProvider {
             sql.SET("role_id = #{record.roleId,jdbcType=INTEGER}");
         }
         
+        if (record.getSalt() != null) {
+            sql.SET("salt = #{record.salt,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -185,6 +193,7 @@ public class SysuserSqlProvider {
         sql.SET("img = #{record.img,jdbcType=VARCHAR}");
         sql.SET("dept_id = #{record.deptId,jdbcType=INTEGER}");
         sql.SET("role_id = #{record.roleId,jdbcType=INTEGER}");
+        sql.SET("salt = #{record.salt,jdbcType=VARCHAR}");
         
         SysuserExample example = (SysuserExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -237,6 +246,10 @@ public class SysuserSqlProvider {
         
         if (record.getRoleId() != null) {
             sql.SET("role_id = #{roleId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getSalt() != null) {
+            sql.SET("salt = #{salt,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
@@ -336,7 +349,6 @@ public class SysuserSqlProvider {
             sql.WHERE(sb.toString());
         }
     }
-    
     public String sysuserList(String keyword) {
 		String sql = "select id,username,nickname,delstatus,phone,email,qq,regtime from t_sysuser ";
 		if(!keyword.isEmpty()||!("".equals(keyword))) {
@@ -344,5 +356,4 @@ public class SysuserSqlProvider {
 		}
 		return sql;
 	}
-    
 }
