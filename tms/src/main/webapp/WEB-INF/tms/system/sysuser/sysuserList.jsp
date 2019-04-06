@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <!DOCTYPE html>
 <html>
@@ -34,7 +35,9 @@
 						<div>
 							<div class="">
 								<div class="col-sm-3">
-									<span id="add_sysuser" class="btn btn-primary">添加用户</span>
+									<shiro:hasPermission name="user:add">
+										<span id="add_sysuser" class="btn btn-primary">添加用户</span>
+									</shiro:hasPermission>
 								</div>
 								<div class="col-sm-4">
 									<input id="search" placeholder="请输入需要查询的用户名或昵称" name="search" class="form-control"
@@ -93,6 +96,26 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-3 control-label">用户角色：</label>
+							<div class="col-sm-7">
+
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="必选" id="roleName" name="roleName">
+									<input type="hidden" readonly="readonly" id="roleId" name="roleId"/>
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-white dropdown-toggle"
+											data-toggle="dropdown">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right" role="menu">
+										</ul>
+									</div>
+								</div>
+									<label style="color:#cc5965" id="roleNameMsg"></label>
+
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 control-label">电话：</label>
 							<div class="col-sm-7">
 								<input id="phone" placeholder="必填" name="phone" class="form-control"
@@ -134,7 +157,9 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-					<button type="submit" class="btn btn-primary">保存</button>
+					<shiro:hasPermission name="user:edit">
+						<button type="submit" class="btn btn-primary">保存</button>
+					</shiro:hasPermission>
 				</div>
 					</form>
 			</div>
@@ -167,6 +192,9 @@
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<!-- 表单校验默认的提示字 -->
 	<script src="${ctx}/js/plugins/validate/messages_zh.min.js"></script>
+	
+	<!-- 搜索自动补全插件 -->
+	<script src="${ctx}/js/plugins/suggest/bootstrap-suggest.min.js"></script>
 
 	<!-- Page-Level Scripts -->
 	<script>
@@ -175,7 +203,13 @@
 			var time = new Date(value);
 			var year = time.getFullYear();
 			var month = time.getMonth() + 1;
+			if(month<10){
+				month = "0"+month;
+			}
 			var day = time.getDate();
+			if(day<10){
+				day = "0"+day;
+			}
 			return year + "-" + month + "-" + day;
 		}
 	
@@ -196,13 +230,25 @@
 			var editfunc = "onclick='editSysUser(" + formObj + ")'";
 			var dimissfunc = "onclick='dimissSysUser("+rowObject.id+","+rowObject.delstatus+")'";
 			var removefunc = "onclick='deleteSysUser("+rowObject.id+")'";
-			var editStr = "<a  class='btn btn-primary btn-sm'"+editfunc+"><i class='fa fa-paste'></i>编辑</a>";
-			if(rowObject.delstatus==1){
-				var dimissStr = "<a class='btn btn-warning btn-sm'"+dimissfunc+"><i class='fa fa-times'></i>离职</a>";
-			}else{
-				var dimissStr = "<a class='btn btn-info btn-sm'"+dimissfunc+"><i class='fa fa-check'></i>复职</a>";
+			var editStr = "";
+			var dimissStr = "";
+			var removeStr = "";
+			<shiro:hasPermission name="user:edit">
+				editStr = "<a  class='btn btn-primary btn-sm'"+editfunc+"><i class='fa fa-paste'></i>编辑</a>";
+			</shiro:hasPermission>
+			<shiro:hasPermission name="user:dimissOrRestore">
+				if(rowObject.delstatus==1){
+					dimissStr = "<a class='btn btn-warning btn-sm'"+dimissfunc+"><i class='fa fa-times'></i>离职</a>";
+				}else{
+					dimissStr = "<a class='btn btn-info btn-sm'"+dimissfunc+"><i class='fa fa-check'></i>复职</a>";
+				}
+			</shiro:hasPermission>
+			<shiro:hasPermission name="user:delete">
+				removeStr = "<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
+			</shiro:hasPermission>
+			if(editStr==""&&dimissStr==""&&removeStr==""){
+				return "您没有足够的权限操作用户";
 			}
-			var removeStr = "<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
 			return editStr+"&nbsp;&nbsp;&nbsp;&nbsp;"+dimissStr+"&nbsp;&nbsp;&nbsp;&nbsp;"+removeStr;
 		}
 		
@@ -216,6 +262,8 @@
             $("#phone").val(obj.phone);
             $("#qq").val(obj.qq);
             $("#email").val(obj.email);
+            $("#roleId").val(obj.roleId);
+            $("#roleName").val(obj.roleName);
             $("#regtime").val(formatDate(obj.regtime));
             $("#myModal").modal('show');
 		}
@@ -326,7 +374,7 @@
 								rowList : [ 10, 20, 30, 50 ],
 								emptyrecords : '没有符合条件的数据！',
 								colNames : [ 'id号', '用户名', '昵称', '电话', '邮箱',
-										'QQ号', '注册时间', '状态', '操作' ],
+										'QQ号', '注册时间', '角色','状态', '操作' ],
 								colModel : [ {
 									name : 'id',
 									width : 60,
@@ -338,20 +386,23 @@
 									width : 80
 								}, {
 									name : 'phone',
-									width : 80,
-								}, {
-									name : 'email',
-									width : 150,
-								}, {
-									name : 'qq',
 									width : 100,
 								}, {
+									name : 'email',
+									width : 120,
+								}, {
+									name : 'qq',
+									width : 80,
+								}, {
 									name : 'regtime',
-									width : 150,
+									width : 70,
 									formatter : formatter_date,
 								}, {
+									name : 'roleName',
+									width :100,
+								}, {
 									name : 'delstatus',
-									width : 80,
+									width : 50,
 									formatter : formatter_status,
 								}, {
 									width : 200,
@@ -362,6 +413,13 @@
 								caption : "用户信息列表",
 								hidegrid : false
 							});
+					$("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
+						edit : false,
+						add : false,
+						refresh: true,
+						del : false,
+						search : false
+					});
 					//使用自带的查询添加等功能
 					/* $("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
 						edit : false,
@@ -387,6 +445,31 @@
 						var pattern = /^1[3,4,5,8,9][0-9]{9}$/
 						return pattern.test(value);
 					},"请输入11位有效的手机号码")
+					$.validator.addMethod("roleNameRequired",
+					function(value, element, param) {
+						/* var pattern = /^1[3,4,5,8,9][0-9]{9}$/
+						return pattern.test(value); */
+						var roleName = $("#roleName").val();
+						if(roleName){
+							$.get("${ctx}/role/checkRoleName",{roleName:roleName},function(data){
+								if(data){
+									//data true 说明没有输入正确
+									$("#roleNameMsg").html("请选择正确的角色！");
+								}else{
+									//data false 说明输入正确
+									if($("#roleId").val()){
+										$("#roleNameMsg").html("");
+									}else{
+										$("#roleNameMsg").html("输入后请手动选择角色！")
+									}
+								}
+							})
+						}else{
+							//无值
+							$("#roleNameMsg").html("请选择正确的角色！");
+						}
+						return true;
+					}, "用户角色不能为空")
 					
 					/* jquery Validate 初始化 */
 					$("#infoForm").validate({
@@ -399,6 +482,7 @@
 							email:"required",
 							qq:"required",
 							regtime:"required",
+							roleName : "roleNameRequired",
 						},messages:{
 							nickname:"昵称不能为空",
 							phone:{
@@ -408,7 +492,11 @@
 							email:"邮箱不能为空",
 							qq:"qq不能为空",
 							regtime:" 注册日期不能为空",
+							roleName :"用户角色不能为空"
 						},submitHandler:function(){
+							if(!$("#roleId").val()){
+								return;
+							}
 							//1、序列化表单
 							var formDate = $("#infoForm").serialize();
 							//2、使用ajax请求提交
@@ -433,6 +521,29 @@
 								$("#table_list_1").trigger("reloadGrid");
 							})
 						}
+					});
+					
+					/*搜索自动补齐*/
+					var testBsSuggest = $("#roleName").bsSuggest({
+						url : "${ctx}/role/allRole",
+						/*effectiveFields: ["userName", "shortAccount"],
+						 searchFields: [ "shortAccount"],
+						 effectiveFieldsAlias:{userName: "姓名"},*/
+						idField : "id",
+						keyField : "roleName",
+						autoSelect : true,
+						/* getDataMethod: "url", */
+					}).on('onDataRequestSuccess', function(e, result) {
+						//数据加载后执行
+						//console.log('onDataRequestSuccess: ', result);
+					}).on('onSetSelectValue', function(e, keyword) {
+						//选择了之后执行
+						//console.log('onSetSelectValue: ', keyword);
+						$("#roleId").val(keyword.id);
+					}).on('onUnsetSelectValue', function(e) {
+						//没选择执行
+						//console.log("onUnsetSelectValue");
+						$("#roleId").val("");
 					});
 
 				});

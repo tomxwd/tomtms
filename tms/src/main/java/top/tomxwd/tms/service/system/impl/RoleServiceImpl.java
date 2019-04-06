@@ -86,10 +86,10 @@ public class RoleServiceImpl implements RoleService {
 		int i = mapper.updateByPrimaryKeySelective(role);
 		RoleAndPowerExample example = new RoleAndPowerExample();
 		example.createCriteria().andRoleIdEqualTo(role.getId());
-		int j = roleAndPowerMapper.deleteByExample(example);
+		roleAndPowerMapper.deleteByExample(example);
 		int k = roleAndPowerMapper.insertAllRecords(role);
 		MsgObj msgObj = new MsgObj();
-		if(i==1&&j!=0&&k!=0) {
+		if(i==1&&k!=0) {
 			msgObj.setOk(1);
 			msgObj.setMsg("编辑角色成功！");
 		}else {

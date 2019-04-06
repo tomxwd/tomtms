@@ -1,13 +1,94 @@
 package top.tomxwd.tms.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.SocketException;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-
+@Component
 public class UpLoadUtils {
+	
+	@Value("${FTP_HOST}")
+	private String FTP_HOST;
+	@Value("${FTP_PORT}")
+	private Integer FTP_PORT;
+	@Value("${FTP_USER}")
+	private String FTP_USER;
+	@Value("${FTP_PASSWORD}")
+	private String FTP_PASSWORD;
+	@Value("${FTP_BASE_URL}")
+	private String FTP_BASE_URL;
+	@Value("${USER_HEADIMG}")
+	private String USER_HEADIMG;
+	@Value("${DRIVER_HEADIMG}")
+	private String DRIVER_HEADIMG;
+	@Value("${CAR_IMG}")
+	private String CAR_IMG;
+	@Value("${NOTIC_IMG}")
+	private String NOTIC_IMG;
+	@Value("${ACESS_BASE_URL}")
+	private String ACESS_BASE_URL;
+	
+	public String UpLoadNoticeImg(MultipartFile file) {
+		return this.uploadNormal(NOTIC_IMG, file);
+	}
+	
+	public String UpLoadCarImg(MultipartFile file) {
+		return this.uploadNormal(CAR_IMG, file);
+	}
+	
+	public String UpLoadUserHeadImg(MultipartFile file) {
+		return this.uploadNormal(USER_HEADIMG, file);
+	}
+	
+	public String UpLoadDriverHeadImg(MultipartFile file) {
+		return this.uploadNormal(DRIVER_HEADIMG, file);
+	}
+	
+	private String uploadNormal(String dir,MultipartFile file) {
+		String newFileName = "";
+		String returnFileName = "";
+		//1.建立和服务端的链接
+		FTPClient client = new FTPClient();
+		try {
+			client.connect(FTP_HOST, FTP_PORT);
+			//2.身份认证
+			client.login(FTP_USER, FTP_PASSWORD);
+			//3.改变上传路径
+			client.changeWorkingDirectory(FTP_BASE_URL+dir);
+			//4.指定文件上传的方式 二进制字节
+			client.setFileType(FTP.BINARY_FILE_TYPE);
+			//5.指定被动模式上传
+			client.enterLocalPassiveMode();
+			String fileName = UUID.randomUUID().toString().replaceAll("-", "");
+			String extension = FilenameUtils.getExtension(file.getOriginalFilename());// jpg , png 等等
+			// 创建新的文件名称
+			newFileName = "tomxwd"+fileName + "." + extension;
+			boolean flag = client.storeFile(newFileName, file.getInputStream());
+			if(flag) {
+				System.out.println("上传成功");
+				returnFileName = ACESS_BASE_URL+dir+"/"+newFileName;
+			}else {
+				System.out.println("上传失败");
+			}
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return returnFileName;
+	}
+	
 	
 	/**
 	 * 传入一个位置，以及需要上传的文件

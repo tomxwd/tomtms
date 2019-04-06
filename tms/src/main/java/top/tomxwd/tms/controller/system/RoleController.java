@@ -3,6 +3,7 @@ package top.tomxwd.tms.controller.system;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +26,14 @@ public class RoleController {
 
 	// 去添加角色界面
 	@RequestMapping(value = "/toAddRole", method = RequestMethod.GET)
+	@RequiresPermissions("role:listPage")
 	public String toAddRole() {
 		return "system/role/addRole";
 	}
 
 	// 去角色列表界面
 	@RequestMapping(value = "/toRoleList", method = RequestMethod.GET)
+	@RequiresPermissions("role:addPage")
 	public String toPowerList() {
 		return "system/role/roleList";
 	}
@@ -51,6 +54,7 @@ public class RoleController {
 
 	// 查询角色列表
 	@RequestMapping(value = "/roleList", method = RequestMethod.POST)
+	@RequiresPermissions("role:list")
 	@ResponseBody
 	public PageObj<Role> roleList(PageObj<Role> pageObj) {
 		return service.roleList(pageObj);
@@ -58,6 +62,7 @@ public class RoleController {
 
 	// 添加新角色
 	@RequestMapping(value = "/addRole", method = RequestMethod.POST)
+	@RequiresPermissions("role:add")
 	@ResponseBody
 	public MsgObj addRole(Role role) {
 		return service.insertRole(role);
@@ -72,6 +77,7 @@ public class RoleController {
 
 	// 编辑角色
 	@RequestMapping(value = "/editRole", method = RequestMethod.POST)
+	@RequiresPermissions("role:edit")
 	@ResponseBody
 	public MsgObj editRole(Role role) {
 		return service.updateRole(role);
@@ -79,6 +85,7 @@ public class RoleController {
 
 	// 删除角色
 	@RequestMapping(value = "/deleteRole", method = RequestMethod.GET)
+	@RequiresPermissions("role:delete")
 	@ResponseBody
 	public MsgObj deleteRole(Integer id) {
 		return service.deleteRoleById(id);

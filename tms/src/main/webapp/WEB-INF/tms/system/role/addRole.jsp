@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <!DOCTYPE html>
 <html>
@@ -34,22 +35,23 @@
 					<!-- enctype="multipart/form-data" -->
 					<form class="form-horizontal m-t" method="post" id="addRoleForm">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">角色名：</label>
-							<div class="col-sm-4">
+							<label class="col-sm-2 control-label">角色名：</label>
+							<div class="col-sm-5">
 								<input id="roleName" name="roleName" placeholder="请输入角色名"
 									class="form-control" type="text" class="valid">
 							</div>
 						</div>
-						<label class="col-sm-3 control-label">添加角色权限：</label>
+						<label class="col-sm-2 control-label">添加角色权限：</label>
 						<div class="form-group">
-							<div class="col-sm-3"></div>
-							<div id="powerTable" class="col-sm-6">
+							<div id="powerTable" class="col-sm-8">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-8">
+							<shiro:hasPermission name="role:add">
 								<button class="btn btn-primary" type="submit">添加角色</button>
+							</shiro:hasPermission>
 								<button class="btn btn-default" type="reset">重置</button>
 							</div>
 						</div>
@@ -110,7 +112,7 @@
 							count++;
 							power = dt.powers[j];
 							htmlVal += "<td><input type='checkbox' value='"+power.id+"' class='i-checks' name='powers'> <i><i>"+power.powerName+"</td>"
-							if(count%4==0){
+							if(count%3==0){
 								htmlVal += "</tr><tr>"
 							}
 						}

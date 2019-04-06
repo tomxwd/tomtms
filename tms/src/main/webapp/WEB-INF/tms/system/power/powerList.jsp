@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <!DOCTYPE html>
 <html>
@@ -35,7 +36,9 @@
 						<div>
 							<div class="">
 								<div class="col-sm-3">
-									<span id="add_power" class="btn btn-primary">添加权限</span>
+									<shiro:hasPermission name="power:add">
+										<span id="add_power" class="btn btn-primary">添加权限</span>
+									</shiro:hasPermission>
 								</div>
 								<div class="col-sm-4">
 									<input id="search" placeholder="请输入需要查询的权限" name="search"
@@ -129,7 +132,9 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-						<button type="submit" class="btn btn-primary">保存</button>
+						<shiro:hasPermission name="power:edit">
+							<button type="submit" class="btn btn-primary">保存</button>
+						</shiro:hasPermission>
 					</div>
 				</form>
 			</div>
@@ -188,8 +193,17 @@
 			var formObj = JSON.stringify(rowObject);
 			var editfunc = "onclick='editPower(" + formObj + ")'";
 			var removefunc = "onclick='deletePower(" + rowObject.id + ")'";
-			var editStr = "<a  class='btn btn-primary btn-sm'"+editfunc+"><i class='fa fa-paste'></i>编辑</a>";
-			var removeStr = "<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
+			var editStr = "";
+			var removeStr = "";
+			<shiro:hasPermission name="power:edit">
+				editStr = "<a  class='btn btn-primary btn-sm'"+editfunc+"><i class='fa fa-paste'></i>编辑</a>";
+			</shiro:hasPermission>
+			<shiro:hasPermission name="power:delete">
+				removeStr = "<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
+			</shiro:hasPermission>
+			if(editStr==""&&removeStr==""){
+				return "您没有足够的权限操作权限";
+			}
 			return editStr + "&nbsp;&nbsp;&nbsp;&nbsp;" + removeStr;
 		}
 
@@ -327,23 +341,26 @@
 										rowList : [ 10, 20, 30, 50 ],
 										emptyrecords : '没有符合条件的数据！',
 										colNames : [ '序号', '权限名', '权限路径',
-												'是否显示', '所属模块', '操作' ],
+												'是否显示','权限编码', '所属模块', '操作' ],
 										colModel : [ {
 											name : 'id',
 											width : 60,
 										}, {
 											name : 'powerName',
-											width : 90,
+											width : 100,
 										}, {
 											name : 'powerAction',
-											width : 220,
+											width : 250,
 										}, {
 											name : 'powerDisplay',
 											width : 80,
 											formatter : formatter_display,
 										}, {
+											name : 'precode',
+											width : 200,
+										}, {
 											name : 'modularName',
-											width : 150,
+											width : 100,
 										}, {
 											width : 150,
 											formatter : formatter_operation,
@@ -353,6 +370,13 @@
 										caption : "权限列表",
 										hidegrid : false
 									});
+							$("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
+								edit : false,
+								add : false,
+								refresh: true,
+								del : false,
+								search : false
+							});
 							//使用自带的查询添加等功能
 							/* $("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
 								edit : false,

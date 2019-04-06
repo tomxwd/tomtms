@@ -1,11 +1,13 @@
 package top.tomxwd.tms.mapper.system;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -48,6 +50,7 @@ public interface SysuserMapper {
     int insert(Sysuser record);
 
     @InsertProvider(type=SysuserSqlProvider.class, method="insertSelective")
+    @Options(useGeneratedKeys=true)
     int insertSelective(Sysuser record);
 
     @SelectProvider(type=SysuserSqlProvider.class, method="selectByExample")
@@ -124,5 +127,5 @@ public interface SysuserMapper {
      * @return
      */
     @SelectProvider(type=SysuserSqlProvider.class,method="sysuserList")
-	List<Sysuser> sysuserList(String keyword);
+	List<Map<String, Object>> sysuserList(String keyword);
 }

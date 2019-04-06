@@ -21,12 +21,13 @@ import top.tomxwd.tms.vo.MsgObj;
 @Controller
 @RequestMapping("/")
 public class PageController {
-		
 	//去登录页面
-	@RequestMapping("/toLogin")
-	public String toLogin() {
-		return "login";
-	}
+//	@RequestMapping("/toLogin")
+//	public String toLogin(HttpServletRequest req) {
+//		MsgObj msgObj = new MsgObj(1, "");
+//		req.setAttribute("msg", JSON.toJSONString(msgObj));
+//		return "login";
+//	}
 	
 	//去主页
 	@RequestMapping(value= {"/","/toIndex"})

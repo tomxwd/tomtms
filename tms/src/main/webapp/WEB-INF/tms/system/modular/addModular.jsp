@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <!DOCTYPE html>
 <html>
@@ -31,7 +32,7 @@
 				<div class="ibox-content">
 				
 				<!-- enctype="multipart/form-data" -->
-					<form class="form-horizontal m-t" method="post" id="addModualrForm">
+					<form class="form-horizontal m-t" method="post" id="addModularForm">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">模块名：</label>
 							<div class="col-sm-4">
@@ -44,7 +45,9 @@
 
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-8">
-								<button class="btn btn-primary" type="submit">添加模块</button>
+								<shiro:hasPermission name="modular:add">
+									<button class="btn btn-primary" type="submit">添加模块</button>
+								</shiro:hasPermission>
 								<button class="btn btn-default" type="reset">重置</button>
 							</div>
 						</div>
@@ -101,7 +104,7 @@
 		},"请输入11位有效的手机号码") */
 		
 		/* jquery Validate 初始化 */
-		$("#addModualrForm").validate({
+		$("#addModularForm").validate({
 			rules:{
 				modularName:{
 					required:true,

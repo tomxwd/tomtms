@@ -350,9 +350,9 @@ public class SysuserSqlProvider {
         }
     }
     public String sysuserList(String keyword) {
-		String sql = "select id,username,nickname,delstatus,phone,email,qq,regtime from t_sysuser ";
+		String sql = "select t1.id,t1.username,t1.nickname,t1.delstatus,t1.phone,t1.email,t1.qq,t1.regtime,t1.role_id roleId,t2.role_name roleName from t_sysuser t1 join t_role t2 on t1.role_id = t2.id ";
 		if(!keyword.isEmpty()||!("".equals(keyword))) {
-			sql += " where 1 = 1 and username like '%' #{keyword} '%' or nickname like '%' #{keyword} '%' ";
+			sql += " where t1.username like '%' #{keyword} '%' or nickname like '%' #{keyword} '%' ";
 		}
 		return sql;
 	}

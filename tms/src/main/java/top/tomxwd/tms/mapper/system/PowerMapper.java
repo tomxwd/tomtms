@@ -120,6 +120,7 @@ public interface PowerMapper {
      * @param userId
      * @return
      */
-    @Select("select t1.id id,t1.power_name powerName,t1.power_action powerAction,t1.power_display powerDisplay,t1.modular_id modularId from t_power t1 join (select t2.power_id from t_sysuser t1 join t_role_power t2 on t1.role_id=t2.role_id where t1.id=#{userId})t2 on t1.id=t2.power_id")
+//    @Select("select t1.id id,t1.power_name powerName,t1.power_action powerAction,t1.power_display powerDisplay,t1.modular_id modularId,t1.precode precode from t_power t1 join (select t2.power_id from t_sysuser t1 join t_role_power t2 on t1.role_id=t2.role_id where t1.id=#{userId})t2 on t1.id=t2.power_id")
+    @SelectProvider(type=PowerSqlProvider.class,method="selectUserPowersByUserId")
 	List<Power> selectUserPowersByUserId(Integer userId);
 }

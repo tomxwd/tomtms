@@ -1,11 +1,25 @@
 package top.tomxwd.tms.pojo.system;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class Sysuser {
-    private Integer id;
+public class Sysuser implements Serializable{
+	
+    @Override
+	public String toString() {
+		return "Sysuser [id=" + id + ", username=" + username + ", nickname=" + nickname + ", delstatus=" + delstatus
+				+ ", password=" + password + ", phone=" + phone + ", email=" + email + ", qq=" + qq + ", regtime="
+				+ regtime + ", img=" + img + ", deptId=" + deptId + ", roleId=" + roleId + ", salt=" + salt + "]";
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private String username;
 

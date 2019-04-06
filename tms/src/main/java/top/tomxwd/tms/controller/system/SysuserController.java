@@ -1,10 +1,14 @@
 package top.tomxwd.tms.controller.system;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
+
 import top.tomxwd.tms.pojo.system.Sysuser;
 import top.tomxwd.tms.service.system.SysuserService;
+import top.tomxwd.tms.shiro.NoExamEecption;
 import top.tomxwd.tms.vo.MsgObj;
 import top.tomxwd.tms.vo.PageObj;
 
@@ -60,41 +67,47 @@ public class SysuserController {
 	 * 		   LockedAccountException 账号被锁定
 	 * 
 	 */
+	
 	@RequestMapping(value = "/login")
 	public ModelAndView login(String verify,HttpServletRequest req,HttpServletResponse resp) {
-		ModelAndView mv = new ModelAndView("/login");
+ 		ModelAndView mv = new ModelAndView("/login");
+ 		MsgObj msgObj = new MsgObj();
+ 		msgObj.setOk(0);
 		//return sysuserService.findSysuserByInfo(user,verify,req,resp);
-		System.out.println("123");
 		String className = (String) req.getAttribute("shiroLoginFailure");
-		System.out.println(className);
 		// AuthenticationException子类
 		if (UnknownAccountException.class.getName().equals(className)) {
 			// 抛出自定义异常，用户名或密码不正确
 			//msgObj.setMsg("账号或密码不正确");
-			mv.addObject("msg", "用户名或密码不正确");
-		} else if (IncorrectCredentialsException.class.getName().equals(className)) {
+			msgObj.setMsg("用户名或密码不正确");
+		} else if(NoExamEecption.class.getName().equals(className)) {
+			msgObj.setMsg("账号正在审核中");
+		}	else if (IncorrectCredentialsException.class.getName().equals(className)) {
 			// 抛出自定义异常，
-			//msgObj.setMsg("密码不正确");
-			mv.addObject("msg", "密码错误");
+			msgObj.setMsg("用户名或密码不正确");
 		} else if (className==null){
-			mv.addObject("msg","无异常");
+			msgObj.setOk(1);
+			msgObj.setMsg("通过");
 		} else {
-			System.out.println("成");
-			//msgObj.setMsg("登陆成功");
-			mv.addObject("msg", "系统异常");
+			msgObj.setMsg("系统异常，请稍后再试！");
 		}
+		mv.addObject("msg", JSON.toJSONString(msgObj));
+		mv.addObject("username", req.getParameter("username"));
+		mv.addObject("password", req.getParameter("password"));
 //		return "toLogin";
 		return mv;
 	}
 
 	// 去添加用户界面
 	@RequestMapping(value = "/toAddSysuser", method = RequestMethod.GET)
+	@RequiresPermissions("user:addPage")
 	public String toAddSysuser() {
 		return "system/sysuser/addSysuser";
 	}
 
 	// 去用户列表界面
 	@RequestMapping(value = "/toSysuserList", method = RequestMethod.GET)
+	@RequiresPermissions("user:listPage")
 	public String toSysuserList() {
 		return "system/sysuser/sysuserList";
 	}
@@ -108,20 +121,26 @@ public class SysuserController {
 
 	// 添加用户操作
 	@RequestMapping(value = "/addSysuser", method = RequestMethod.POST)
+	@RequiresPermissions("user:add")
 	@ResponseBody
 	public MsgObj addSysuser(Sysuser user, MultipartFile headImg) {
 		return sysuserService.insertSysuser(user, headImg);
 	}
 
 	// 用户列表数据
+	@RequiresPermissions("user:list")
 	@RequestMapping(value = "/sysuserList", method = RequestMethod.POST)
 	@ResponseBody
-	public PageObj<Sysuser> sysuserList(PageObj<Sysuser> pageObj) {
-		return sysuserService.sysuserList(pageObj);
+	public Map<String, Object> sysuserList(@RequestParam Map<String,Object> map){
+		return sysuserService.sysuserList(map);
 	}
+//	public PageObj<Sysuser> sysuserList(PageObj<Sysuser> pageObj) {
+//		return sysuserService.sysuserList(pageObj);
+//	}
 
 	// 删除该用户
 	@RequestMapping(value = "/deleteSysuser", method = RequestMethod.GET)
+	@RequiresPermissions("user:delete")
 	@ResponseBody
 	public MsgObj deleteSysuser(Integer id) {
 		return sysuserService.deleteSysuser(id);
@@ -129,6 +148,7 @@ public class SysuserController {
 
 	// 离职或复职操作
 	@RequestMapping(value = "/dimissOrRestore", method = RequestMethod.GET)
+	@RequiresPermissions("user:dimissOrRestore")
 	@ResponseBody
 	public MsgObj dimissOrRestore(Integer id, Integer delstatus) {
 		MsgObj msgObj = sysuserService.updateDelstatusById(id, delstatus);
@@ -137,6 +157,7 @@ public class SysuserController {
 
 	// 修改用户信息
 	@RequestMapping(value = "/editSysuser", method = RequestMethod.POST)
+	@RequiresPermissions("user:edit")
 	@ResponseBody
 	public MsgObj editSysuser(Sysuser user) {
 		return sysuserService.updateSysuser(user);

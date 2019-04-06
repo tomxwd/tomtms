@@ -1,11 +1,24 @@
 package top.tomxwd.tms.pojo.system;
 
+import java.util.List;
+
 public class Role {
     private Integer id;
 
     private String roleName;
+    
+    private List<Integer> powers;
+    
 
-    public Integer getId() {
+    public List<Integer> getPowers() {
+		return powers;
+	}
+
+	public void setPowers(List<Integer> powers) {
+		this.powers = powers;
+	}
+
+	public Integer getId() {
         return id;
     }
 

@@ -1,5 +1,7 @@
 package top.tomxwd.tms.service.system;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,7 +45,8 @@ public interface SysuserService {
 	 * @param queryObj
 	 * @return
 	 */
-	PageObj<Sysuser> sysuserList(PageObj<Sysuser> pageObj);
+	//PageObj<Sysuser> sysuserList(PageObj<Sysuser> pageObj);
+	Map<String,Object> sysuserList(Map<String,Object> map);
 	
 	/**
 	 * 根据id删除用户
@@ -75,4 +78,11 @@ public interface SysuserService {
 	 */
 	Sysuser findSysuserInfoByUserName(String username);
 	
+	/**
+	 * 添加司机 返回用户id
+	 * @param user
+	 * @param file
+	 * @return
+	 */
+	Integer insertNewDriverUser(Sysuser user,MultipartFile file);
 }

@@ -3,6 +3,7 @@ package top.tomxwd.tms.controller.system;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +25,14 @@ public class PowerController {
 
 	// 去添加权限页面
 	@RequestMapping(value = "/toAddPower", method = RequestMethod.GET)
+	@RequiresPermissions("power:addPage")
 	public String toAddPower() {
 		return "system/power/addPower";
 	}
 
 	// 去权限列表页面
 	@RequestMapping(value = "/toPowerList", method = RequestMethod.GET)
+	@RequiresPermissions("power:listPage")
 	public String toPowerList() {
 		return "system/power/powerList";
 	}
@@ -50,6 +53,7 @@ public class PowerController {
 
 	// 查询权限列表
 	@RequestMapping(value = "/powerList", method = RequestMethod.POST)
+	@RequiresPermissions("power:list")
 	@ResponseBody
 	public Map<String, Object> powerList(@RequestParam Map<String, Object> map) {
 		return service.powerList(map);
@@ -57,6 +61,7 @@ public class PowerController {
 
 	// 添加新权限
 	@RequestMapping(value = "/addPower", method = RequestMethod.POST)
+	@RequiresPermissions("power:add")
 	@ResponseBody
 	public MsgObj addPower(Power power) {
 		return service.insertPower(power);
@@ -64,6 +69,7 @@ public class PowerController {
 
 	// 编辑权限
 	@RequestMapping(value = "/editPower", method = RequestMethod.POST)
+	@RequiresPermissions("power:edit")
 	@ResponseBody
 	public MsgObj editPower(Power power) {
 		return service.updatePower(power);
@@ -71,6 +77,7 @@ public class PowerController {
 
 	// 删除权限
 	@RequestMapping(value = "/deletePower", method = RequestMethod.GET)
+	@RequiresPermissions("power:delete")
 	@ResponseBody
 	public MsgObj deletePower(Integer id) {
 		return service.deletePower(id);

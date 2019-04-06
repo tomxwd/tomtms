@@ -254,7 +254,7 @@ public class PowerSqlProvider {
     
     public String selectPowerListByKeyword(String keyword) {
     	//select t1.id,power_name,power_action,power_display,modular_name from t_power t1 join t_modular t2 on t1.modular_id=t2.id 
-    	String sql = "select t1.id id,t1.modular_id modularId,power_name powerName,power_action powerAction,power_display powerDisplay,modular_name modularName from t_power t1 join t_modular t2 on t1.modular_id=t2.id ";
+    	String sql = "select t1.id id,t1.modular_id modularId,power_name powerName,power_action powerAction,power_display powerDisplay,precode precode,modular_name modularName from t_power t1 join t_modular t2 on t1.modular_id=t2.id ";
 		if(!keyword.isEmpty()||!("".equals(keyword))) {
 			sql += " where power_name like '%' #{keyword} '%' ";
 		}
@@ -263,5 +263,15 @@ public class PowerSqlProvider {
     
     public String selectRoleHavingPowerListById(Map<String, Object> map) {
     	return "select t2.id id,t2.power_name powerName from t_role_power t1 join t_power t2 on t1.power_id = t2.id where t1.role_id = #{roleId}";
+    }
+    
+    public String selectUserPowersByUserId(Integer userId){
+    	String sql;
+    	if(userId==0) {
+    		sql = "select id id,power_name powerName,power_action powerAction,power_display powerDisplay,modular_id modularId,precode from t_power;";
+    	}else {
+    		sql = "select t1.id id,t1.power_name powerName,t1.power_action powerAction,t1.power_display powerDisplay,t1.modular_id modularId,t1.precode precode from t_power t1 join (select t2.power_id from t_sysuser t1 join t_role_power t2 on t1.role_id=t2.role_id where t1.id=#{userId})t2 on t1.id=t2.power_id";
+    	}
+    	return sql;
     }
 }

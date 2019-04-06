@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <!DOCTYPE html>
 <html>
@@ -34,7 +35,9 @@
 						<div>
 							<div class="">
 								<div class="col-sm-3">
+								<shiro:hasPermission name="modular:add">
 									<span id="add_Modular" class="btn btn-primary">添加模块</span>
+								</shiro:hasPermission>
 								</div>
 								<div class="col-sm-4">
 									<input id="search" placeholder="请输入需要查询的模块名" name="search" class="form-control"
@@ -94,7 +97,9 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-					<button type="submit" class="btn btn-primary">保存</button>
+					<shiro:hasPermission name="modular:edit">
+						<button type="submit" class="btn btn-primary">保存</button>
+					</shiro:hasPermission>
 				</div>
 					</form>
 			</div>
@@ -135,8 +140,17 @@
 			var formObj = JSON.stringify(rowObject);
 			var editfunc = "onclick='editModular(" + formObj + ")'";
 			var removefunc = "onclick='deleteModular("+rowObject.id+")'";
-			var editStr = "<a  class='btn btn-primary btn-sm'"+editfunc+"><i class='fa fa-paste'></i>编辑</a>";
-			var removeStr = "<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
+			var editStr = "";
+			var removeStr = "";
+			<shiro:hasPermission name="modular:edit">
+				editStr = "<a  class='btn btn-primary btn-sm'"+editfunc+"><i class='fa fa-paste'></i>编辑</a>";
+			</shiro:hasPermission>
+			<shiro:hasPermission name="modular:delete">
+				removeStr = "<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
+			</shiro:hasPermission>
+			if(editStr==""&&removeStr==""){
+				return "您没有足够的权限操作模块";
+			}
 			return editStr+"&nbsp;&nbsp;&nbsp;&nbsp;"+removeStr;
 		}
 		
@@ -245,6 +259,13 @@
 								caption : "模块信息列表",
 								hidegrid : false
 							});
+					$("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
+						edit : false,
+						add : false,
+						refresh: true,
+						del : false,
+						search : false
+					});
 					//使用自带的查询添加等功能
 					/* $("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
 						edit : false,

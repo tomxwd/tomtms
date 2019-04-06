@@ -9,20 +9,15 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<!-- 配置包扫描 -->
-	<context:component-scan
-		base-package="top.tomxwd.tms" />
+
 	<!-- 开启springmvc注解驱动 -->
 	<mvc:annotation-driven />
-	
-	<!-- 配置视图解析器
-		InternalResourceViewResolver对jstl的兼容性不好
-		
-		如果要使用jstl，那么建议添加jstlView属性
-	 -->
+
+	<!-- 配置视图解析器 InternalResourceViewResolver对jstl的兼容性不好 如果要使用jstl，那么建议添加jstlView属性 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
 		<property name="prefix" value="/WEB-INF/tms/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
@@ -35,13 +30,32 @@
 		<!-- 设置上传文件的最大尺寸为1MB -->
 		<property name="maxUploadSize" value="#{1024 * 1024}"></property>
 	</bean>
-	
+
+	<!-- <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" 
+		depends-on="lifecycleBeanPostProcessor"></bean> -->
+
 	<!-- 给shiro注解权限开启aop代理 -->
 	<aop:config proxy-target-class="true"></aop:config>
 	<bean
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
-
+	
+	<!-- shiro异常处理 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<!-- key是异常全限定名 值是视图名
+				认证异常 -->
+				<prop key="org.apache.shiro.authz.UnauthenticatedException">login</prop>
+				<!-- 授权异常 -->
+				<prop key="org.apache.shiro.authz.UnauthorizedException">refuse</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 配置包扫描 -->
+	<context:component-scan
+		base-package="top.tomxwd.tms" />
 
 </beans>
