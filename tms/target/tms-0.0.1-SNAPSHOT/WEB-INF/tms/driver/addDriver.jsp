@@ -165,10 +165,36 @@
 					</form>
 							</div>
 							<div class="col-sm-5">
-								<h4>还不是会员？</h4>
+								<h3>测试账户</h3>
+								<table  class='table table-bordered'>
+									<thead>
+										<tr>
+											<th>功能</th>
+											<th>账号</th>
+											<th>密码</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>超级管理员</td>
+											<td>admin</td>
+											<td>admin</td>
+										</tr>
+										<tr>
+											<td>内容管理员</td>
+											<td>neirong</td>
+											<td>neirong</td>
+										</tr>
+										<tr>
+											<td>维修人员</td>
+											<td>weixiu</td>
+											<td>weixiu</td>
+										</tr>
+									</tbody>
+								</table>
 								<p>您可以注册一个新账户</p>
 								<p class="text-center">
-									<a href="form_basic.html"><i class="fa fa-sign-in big-icon"></i></a>
+									<a href="#"><i class="fa fa-sign-in big-icon"></i></a>
 								</p>
 							</div>
 						</div>

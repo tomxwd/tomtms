@@ -20,18 +20,18 @@
 <link href="${ctx}/css/style.css?v=4.1.0" rel="stylesheet">
 
 <!-- 全局js -->
-	<script src="js/jquery.min.js?v=2.1.4"></script>
-	<script src="js/bootstrap.min.js?v=3.3.6"></script>
-	<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="js/plugins/layer/layer.min.js"></script>
+	<script src="${ctx}js/jquery.min.js?v=2.1.4"></script>
+	<script src="${ctx}js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="${ctx}js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="${ctx}js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="${ctx}js/plugins/layer/layer.min.js"></script>
 
 	<!-- 自定义js -->
-	<script src="js/hplus.js?v=4.1.0"></script>
-	<script type="text/javascript" src="js/contabs.js"></script>
+	<script src="${ctx}js/hplus.js?v=4.1.0"></script>
+	<script type="text/javascript" src="${ctx}js/contabs.js"></script>
 
 	<!-- 第三方插件 -->
-	<script src="js/plugins/pace/pace.min.js"></script>
+	<script src="${ctx}js/plugins/pace/pace.min.js"></script>
 	
 </head>
 
@@ -59,6 +59,8 @@
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
 								<li><a class="J_menuItem" href="${ctx}/sysuser/goEditHeadImgPage">修改头像</a>
 								</li>
+								<li><a class="J_menuItem" href="${ctx}/sysuser/goEditPasswordPage">修改密码</a>
+								</li>
 								<li class="divider"></li>
 								<li><a href="${ctx}/logout">安全退出</a></li>
 							</ul>
@@ -67,6 +69,15 @@
 					</li>
 					
 					<!-- tomxwdpms -->
+					<li><a href="#"> <i class="fa fa-cog fa-spin"></i> <span
+							class="nav-label">账号管理</span> <span class="fa arrow"></span>
+					</a>
+						<ul class="nav nav-second-level">
+							<li><a class="J_menuItem" href="${ctx}/sysuser/goEditHeadImgPage" data-index="0">修改头像</a></li>
+							<li><a class="J_menuItem" href="${ctx}/sysuser/goEditPasswordPage" data-index="0">修改密码</a></li>
+						</ul>
+					</li>
+					
 					<li><a href="#"> <i class="fa fa-file-text"></i> <span
 							class="nav-label">公告管理</span> <span class="fa arrow"></span>
 					</a>
@@ -116,7 +127,10 @@
 							<shiro:hasPermission name="car:infoPage">
 								<li><a class="J_menuItem" href="${ctx}/car/toCarInfo" data-index="0">我的车辆</a></li>
 							</shiro:hasPermission>
-								<li><a class="J_menuItem" href="${ctx}/driver/toDriverList" data-index="0">车辆使用记录</a></li>
+							<shiro:hasPermission name="driver:chartPage">
+								<li><a class="J_menuItem" href="${ctx}/driver/toDriverChart" data-index="0">个人报表</a></li>
+							</shiro:hasPermission>
+								<li><a class="J_menuItem" href="${ctx}/driver/toUseCarRecord" data-index="0">车辆使用记录</a></li>
 								
 							</ul>
 						</li>
@@ -305,8 +319,6 @@
 		</div>
 		<!--右侧边栏结束-->
 	</div>
-
-	
 	
 	<script type="text/javascript">
 	</script>
