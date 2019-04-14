@@ -58,7 +58,9 @@
 									<input type="hidden" id="rentCarId">
 								</div>
 								<div class="col-sm-1">
-									<span  onclick="rentCar()" class="btn btn-info">租车</span>
+									<shiro:hasPermission name="car:rent">
+										<span  onclick="rentCar()" class="btn btn-info">租车</span>
+									</shiro:hasPermission>
 								</div>
 							</div>
 						</div>
@@ -401,7 +403,13 @@
 								caption : "车辆信息列表",
 								hidegrid : false
 							});
-					
+					$("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
+						edit : false,
+						add : false,
+						refresh: true,
+						del : false,
+						search : false
+					});
 
 					/* jquery Validate 添加自定义校验规则 */
 					/* $.validator.addMethod(name,method,message) */

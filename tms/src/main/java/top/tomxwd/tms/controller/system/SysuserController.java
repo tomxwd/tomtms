@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,9 +21,11 @@ import com.alibaba.fastjson.JSON;
 
 import top.tomxwd.tms.pojo.system.Sysuser;
 import top.tomxwd.tms.service.system.SysuserService;
-import top.tomxwd.tms.shiro.NoExamEecption;
+import top.tomxwd.tms.shiro.DmissAccountException;
+import top.tomxwd.tms.shiro.DontPassExamException;
+import top.tomxwd.tms.shiro.DriverDontFindException;
+import top.tomxwd.tms.shiro.NoExamException;
 import top.tomxwd.tms.vo.MsgObj;
-import top.tomxwd.tms.vo.PageObj;
 
 
 @Controller
@@ -80,9 +81,15 @@ public class SysuserController {
 			// 抛出自定义异常，用户名或密码不正确
 			//msgObj.setMsg("账号或密码不正确");
 			msgObj.setMsg("用户名或密码不正确");
-		} else if(NoExamEecption.class.getName().equals(className)) {
+		} else if(NoExamException.class.getName().equals(className)) {
 			msgObj.setMsg("账号正在审核中");
-		}	else if (IncorrectCredentialsException.class.getName().equals(className)) {
+		} else if(DontPassExamException.class.getName().equals(className)) {
+			msgObj.setMsg("账号审核不通过，联系管理员重新填写信息");
+		} else if (DmissAccountException.class.getName().equals(className)) {
+			msgObj.setMsg("已离职，无法登录系统");
+		} else if(DriverDontFindException.class.getName().equals(className)) {
+			msgObj.setMsg("系统异常，请稍后再试");
+		} else if (IncorrectCredentialsException.class.getName().equals(className)) {
 			// 抛出自定义异常，
 			msgObj.setMsg("用户名或密码不正确");
 		} else if (className==null){
@@ -162,5 +169,33 @@ public class SysuserController {
 	public MsgObj editSysuser(Sysuser user) {
 		return sysuserService.updateSysuser(user);
 	}
+	
+	// 修改头像页面
+	@RequestMapping(value="/goEditHeadImgPage",method=RequestMethod.GET)
+	public String goEditHeadImgPage() {
+		return "system/sysuser/editHeadImg";
+	}
+	
+	//修改头像
+	@RequestMapping(value="/editHeadImg",method=RequestMethod.POST)
+	@ResponseBody
+	public MsgObj editHeadImg(MultipartFile headImg) {
+		return sysuserService.updateSysuserHeadImg(headImg);
+	}
+	
+	// 修改密码页面
+	@RequestMapping(value="/goEditPasswordPage",method=RequestMethod.GET)
+	public String goEditPasswordPage() {
+		return "system/sysuser/editPassword";
+	}
+	
+	//修改头像
+	@RequestMapping(value="/editPassword",method=RequestMethod.POST)
+	@ResponseBody
+	public MsgObj editPassword(String password) {
+		return sysuserService.updateSysuserPassword(password);
+	}
+	
+	
 
 }

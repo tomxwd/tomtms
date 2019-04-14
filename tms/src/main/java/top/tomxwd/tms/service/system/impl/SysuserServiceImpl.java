@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,7 @@ public class SysuserServiceImpl implements SysuserService {
 		// 将原始密码加盐（上面生成的盐），并且用md5算法加密三次，将最后结果存入数据库中
 		String result = new Md5Hash(user.getPassword(), salt, 2).toString();
 		user.setPassword(result);
+		user.setDelstatus(1);
 		int i = sysuserMapper.insertSelective(user);
 		MsgObj msgObj = new MsgObj();
 		if (i == 1) {
@@ -217,7 +219,6 @@ public class SysuserServiceImpl implements SysuserService {
 		SysuserExample example = new SysuserExample();
 		top.tomxwd.tms.pojo.system.SysuserExample.Criteria userCriteria = example.createCriteria();
 		userCriteria.andUsernameEqualTo(username);
-		userCriteria.andDelstatusEqualTo(1);
 		List<Sysuser> list = sysuserMapper.selectByExample(example);
 		if (list.size() != 0) {
 			user = list.get(0);
@@ -262,6 +263,46 @@ public class SysuserServiceImpl implements SysuserService {
 		}else {
 			return user.getId();
 		}
+	}
+
+	@Override
+	public MsgObj updateSysuserHeadImg(MultipartFile headImg) {
+		String headImgName = upload.UpLoadUserHeadImg(headImg);
+		Sysuser user = (Sysuser) SecurityUtils.getSubject().getPrincipal();
+		Sysuser currentUser = sysuserMapper.selectByPrimaryKey(user.getId());
+		currentUser.setImg(headImgName);
+		int i = sysuserMapper.updateByPrimaryKeySelective(currentUser);
+		MsgObj msgObj = new MsgObj();
+		if (i == 1) {
+			msgObj.setOk(1);
+			msgObj.setMsg("修改头像成功！");
+		} else {
+			msgObj.setOk(0);
+			msgObj.setMsg("系统故障，修改失败!");
+		}
+		return msgObj;
+	}
+
+	@Override
+	public MsgObj updateSysuserPassword(String password) {
+		Sysuser user = (Sysuser) SecurityUtils.getSubject().getPrincipal();
+		Sysuser currentUser = sysuserMapper.selectByPrimaryKey(user.getId());
+		// 生成盐（部分，需要存入数据库中）
+		String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
+		currentUser.setSalt(salt);
+		// 将原始密码加盐（上面生成的盐），并且用md5算法加密三次，将最后结果存入数据库中
+		String result = new Md5Hash(password, salt, 2).toString();
+		currentUser.setPassword(result);
+		int i = sysuserMapper.updateByPrimaryKey(currentUser);
+		MsgObj msgObj = new MsgObj();
+		if (i == 1) {
+			msgObj.setOk(1);
+			msgObj.setMsg("修改密码成功！");
+		} else {
+			msgObj.setOk(0);
+			msgObj.setMsg("系统故障，修改失败!");
+		}
+		return msgObj;
 	}
 
 }

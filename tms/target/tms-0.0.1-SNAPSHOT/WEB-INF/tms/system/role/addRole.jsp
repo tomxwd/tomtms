@@ -35,16 +35,15 @@
 					<!-- enctype="multipart/form-data" -->
 					<form class="form-horizontal m-t" method="post" id="addRoleForm">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">角色名：</label>
-							<div class="col-sm-4">
+							<label class="col-sm-2 control-label">角色名：</label>
+							<div class="col-sm-5">
 								<input id="roleName" name="roleName" placeholder="请输入角色名"
 									class="form-control" type="text" class="valid">
 							</div>
 						</div>
-						<label class="col-sm-3 control-label">添加角色权限：</label>
+						<label class="col-sm-2 control-label">添加角色权限：</label>
 						<div class="form-group">
-							<div class="col-sm-3"></div>
-							<div id="powerTable" class="col-sm-6">
+							<div id="powerTable" class="col-sm-8">
 							</div>
 						</div>
 
@@ -113,7 +112,7 @@
 							count++;
 							power = dt.powers[j];
 							htmlVal += "<td><input type='checkbox' value='"+power.id+"' class='i-checks' name='powers'> <i><i>"+power.powerName+"</td>"
-							if(count%4==0){
+							if(count%3==0){
 								htmlVal += "</tr><tr>"
 							}
 						}

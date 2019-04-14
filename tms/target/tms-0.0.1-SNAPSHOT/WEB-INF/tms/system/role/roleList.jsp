@@ -314,6 +314,13 @@
 								caption : "角色信息列表",
 								hidegrid : false
 							});
+							$("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
+								edit : false,
+								add : false,
+								refresh: true,
+								del : false,
+								search : false
+							});
 							//使用自带的查询添加等功能
 							/* $("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
 								edit : false,

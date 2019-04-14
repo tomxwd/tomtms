@@ -45,10 +45,4 @@ public interface CompanySituationService {
 	 */
 	Map<String, Object> selectchartDriverTaximeter();
 	
-	/**
-	 * 司机本人近30天的薪资记录
-	 * @return
-	 */
-	Map<String, Object> selectChartDriverPersonalTaximeter();
-	
 }

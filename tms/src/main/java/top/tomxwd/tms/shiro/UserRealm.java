@@ -17,8 +17,14 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import top.tomxwd.tms.mapper.driver.DriverAndCarMapper;
+import top.tomxwd.tms.mapper.driver.DriverMapper;
+import top.tomxwd.tms.pojo.driver.Driver;
+import top.tomxwd.tms.pojo.driver.DriverAndCarExample;
+import top.tomxwd.tms.pojo.driver.DriverExample;
 import top.tomxwd.tms.pojo.system.Power;
 import top.tomxwd.tms.pojo.system.Sysuser;
+import top.tomxwd.tms.service.driver.DriverInfoService;
 import top.tomxwd.tms.service.system.PowerService;
 import top.tomxwd.tms.service.system.SysuserService;
 
@@ -28,6 +34,10 @@ public class UserRealm extends MyAuthorizingRealm {
 	private SysuserService service;
 	@Autowired
 	private PowerService powerService;
+	@Autowired
+	private DriverMapper driverMapper;
+	@Autowired
+	private DriverAndCarMapper driverAndCarMapper;
 
 	@Override
 	public String getName() {
@@ -41,8 +51,24 @@ public class UserRealm extends MyAuthorizingRealm {
 		String username = token.getPrincipal().toString();
 		Sysuser user = service.findSysuserInfoByUserName(username);
 		if(user!=null) {
+			if(user.getRoleId()==1) {
+				DriverExample driverExample = new DriverExample();
+				driverExample.createCriteria().andUserIdEqualTo(user.getId());
+				List<Driver> drivers = driverMapper.selectByExample(driverExample);
+				Driver driver = null;
+				if(drivers.size()!=0) {
+					driver =drivers.get(0);
+				}else {
+					throw new DriverDontFindException();
+				}
+				if(driver.getAcountState()==0) {
+					throw new NoExamException();
+				}else if(driver.getAcountState()==2) {
+					throw new DontPassExamException();
+				}
+			}
 			if(user.getDelstatus()==0) {
-				throw new NoExamEecption();
+				throw new DmissAccountException();
 			}
 		}else {
 			throw new UnknownAccountException();

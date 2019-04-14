@@ -274,18 +274,18 @@
 			var removefunc = "onclick='deleteDriver("+rowObject.id+")'";
 			var examineStr = "";
 			var removeStr = "";
-			//<shiro:hasPermission name="user:dimissOrRestore">
-			if(rowObject.acountState==0){
-				examinefunc1 = "onclick='examineDriver("+rowObject.id+",1)'";
-				examinefunc2 = "onclick='examineDriver("+rowObject.id+",2)'";
-				examineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-info btn-sm'"+examinefunc1+"><i class='fa fa-check'></i>审核通过</a><br><br>";
-				examineStr += "&nbsp;&nbsp;&nbsp;&nbsp;";
-				examineStr += "<a class='btn btn-warning btn-sm'"+examinefunc2+"><i class='fa fa-times'></i>审核不通过</a><br><br>";
-			}
-			//</shiro:hasPermission>
-			//<shiro:hasPermission name="user:delete">
+			<shiro:hasPermission name="driver:examiner">
+				if(rowObject.acountState==0){
+					examinefunc1 = "onclick='examineDriver("+rowObject.id+",1)'";
+					examinefunc2 = "onclick='examineDriver("+rowObject.id+",2)'";
+					examineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-info btn-sm'"+examinefunc1+"><i class='fa fa-check'></i>审核通过</a><br><br>";
+					examineStr += "&nbsp;&nbsp;&nbsp;&nbsp;";
+					examineStr += "<a class='btn btn-warning btn-sm'"+examinefunc2+"><i class='fa fa-times'></i>审核不通过</a><br><br>";
+				}
+			</shiro:hasPermission>
+			<shiro:hasPermission name="driver:delete">
 				removeStr = "<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
-			//</shiro:hasPermission>
+			</shiro:hasPermission>
 			if(examineStr==""&&removeStr==""){
 				return "您没有足够的权限操作用户";
 			}
@@ -458,6 +458,13 @@
 								caption : "司机信息列表",
 								hidegrid : false
 							});
+					$("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
+						edit : false,
+						add : false,
+						refresh: true,
+						del : false,
+						search : false
+					});
 					//使用自带的查询添加等功能
 					/* $("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
 						edit : false,

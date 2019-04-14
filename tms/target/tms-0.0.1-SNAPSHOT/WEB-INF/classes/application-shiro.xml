@@ -102,7 +102,7 @@
 				/driver/toAddDriver=anon
 				/sysuser/checkSysuserName=anon
 				/driver/addDriver=anon
-				/toLogin=anon
+				<!-- /toLogin=authc -->
 				/sysuser/login=authc
 				<!-- /** = authc -->
 				/logout=logout

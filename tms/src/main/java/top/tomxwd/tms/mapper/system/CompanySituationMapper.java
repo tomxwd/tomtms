@@ -43,14 +43,6 @@ public interface CompanySituationMapper {
 	List<Map<String, Object>> selectChartDriverMaintain();
 	
 	/**
-	 * 该司机近30天收入记录
-	 * @param id
-	 * @return
-	 */
-	@Select("select round(sum(cost),1) as 'value',left(date,10) as 'name' from t_taximeter where DATE_FORMAT(date,'%Y-%m-%d')>DATE_FORMAT(date_sub(curdate(), interval 30 day),'%Y-%m-%d') and driver_id=#{id} group by name;")
-	List<Map<String, Object>> selectChartDriverPersonalTaximeter(Integer id);
-	
-	/**
 	 * 公司近30天 司机总收入
 	 * @return
 	 */

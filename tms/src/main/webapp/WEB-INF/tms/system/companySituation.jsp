@@ -111,47 +111,7 @@
 				</div>
 			</div>
 		</shiro:hasPermission>
-		<shiro:hasPermission name="driver:personalIncome">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<h5>司机近三十天的收入情况</h5>
-						</div>
-						<div id="driverPersonal_taximeter_ibox-content" class="ibox-content">
-							<div class="echarts" style="height: 500px" id="driverPersonal_taximeter_echarts"></div>
-							<table id="driverPersonal_taximeter_table" class='table table-bordered'>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</shiro:hasPermission>
 
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="ibox float-e-margins">
-					<div class="ibox-title">
-						<h5>中国地图</h5>
-						<div class="ibox-tools">
-							<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
-							</a> <a class="dropdown-toggle" data-toggle="dropdown"
-								href="graph_flot.html#"> <i class="fa fa-wrench"></i>
-							</a>
-							<ul class="dropdown-menu dropdown-user">
-								<li><a href="graph_flot.html#">选项1</a></li>
-								<li><a href="graph_flot.html#">选项2</a></li>
-							</ul>
-							<a class="close-link"> <i class="fa fa-times"></i>
-							</a>
-						</div>
-					</div>
-					<div class="ibox-content">
-						<div style="height: 600px" id="echarts-map-chart"></div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<!-- 全局js -->
 	<script src="${ctx}/js/jquery.min.js?v=2.1.4"></script>
@@ -197,12 +157,6 @@
 	var driver_taximeter_echarts = echarts.init(document
 			.getElementById("driver_taximeter_echarts"));
 	var driver_taximeter_echarts_option;
-	/* 司机个人薪资记录 */
-	var driverPersonal_taximeter_echarts = echarts.init(document
-			.getElementById("driverPersonal_taximeter_echarts"));
-	var driverPersonal_taximeter_echarts_option;
-	
-	
 
 	$(function() {
 
@@ -539,82 +493,6 @@
 			driver_taximeter_echarts
 			.setOption(driver_taximeter_echarts_option);
 			$("#driver_taximeter_table").html(table)
-		})
-		
-		//司机个人薪资报表
-		$.get("${ctx}/system/chartDriverPersonalTaximeter",function(data) {
-			if(!data){
-				$("#driverPersonal_taximeter_ibox-content").html("您的身份不是司机，无法显示！")
-			}
-			driverPersonal_taximeter_echarts_option={
-				title : {
-		        text: '近30天收入记录',
-		        subtext: '收入记录'
-		    },
-		    tooltip : {
-		        trigger: 'axis'
-		    },
-		    legend: {
-		        data:['金额']
-		    },
-		    toolbox: {
-		        show : true,
-		        feature : {
-		            dataView : {show: true, readOnly: false},
-		            magicType : {show: true, type: ['line', 'bar']},
-		            restore : {show: true},
-		            saveAsImage : {show: true}
-		        }
-		    },
-		    calculable : true,
-		    xAxis : [
-		        {
-		            type : 'category',
-		            data : data.name
-		        }
-		    ],
-		    yAxis : [
-		        {
-		            type : 'value'
-		        }
-		    ],
-		    series : [
-		        {
-		            name:'收入金额',
-		            type:'bar',
-		            data:data.value,
-		            markPoint : {
-		                data : [
-		                    {type : 'max', name: '最大值'},
-		                    {type : 'min', name: '最小值'}
-		                ]
-		            },
-		            markLine : {
-		                data : [
-		                    {type : 'average', name: '平均值'}
-		                ]
-		            }
-		        }
-		    ]
-			}
-			var table = ""
-			var thead = "<thead><tr><th>日期</th>"
-			var tbody = "<tbody><tr><td>金额</td>";
-			for (var i = 0; i < data.name.length; i++) {
-				thead += "<th>"+data.name[i]+"</th>";
-				tbody += "<td>"+data.value[i]+"</td>";
-				if((i+1)%8==0){
-					table += thead+"</tr></thead>"+tbody+"</tr></tbody>";
-					thead = "<thead><th>日期</th>";
-					tbody = "<tbody><td>金额</td>";
-				}
-			}
-			thead += "</tr></thead>";
-			tbody += "</tr></tbody>";
-			table += thead+tbody;
-			driverPersonal_taximeter_echarts
-			.setOption(driverPersonal_taximeter_echarts_option);
-			$("#driverPersonal_taximeter_table").html(table)
 		})
 		
 

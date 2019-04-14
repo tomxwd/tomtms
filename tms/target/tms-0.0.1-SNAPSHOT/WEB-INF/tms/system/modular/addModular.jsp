@@ -32,7 +32,7 @@
 				<div class="ibox-content">
 				
 				<!-- enctype="multipart/form-data" -->
-					<form class="form-horizontal m-t" method="post" id="addModualrForm">
+					<form class="form-horizontal m-t" method="post" id="addModularForm">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">模块名：</label>
 							<div class="col-sm-4">
@@ -104,7 +104,7 @@
 		},"请输入11位有效的手机号码") */
 		
 		/* jquery Validate 初始化 */
-		$("#addModualrForm").validate({
+		$("#addModularForm").validate({
 			rules:{
 				modularName:{
 					required:true,

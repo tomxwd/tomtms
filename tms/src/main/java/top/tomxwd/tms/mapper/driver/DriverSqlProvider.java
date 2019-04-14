@@ -321,4 +321,19 @@ public class DriverSqlProvider {
             sql.WHERE(sb.toString());
         }
     }
+    
+    /**
+     * 根据车牌号可以查找车辆使用记录
+     * @param keyword
+     * @return
+     */
+    public String selectUseCarRecordListByKeyword(Map<String, String> params) {
+    	String sql = "select t1.car_id carId,t1.rent_time rentTime,t1.rent_state rentState,t1.refuse_reson refuseReson,t2.car_number carNumber,t2.car_state carState,t2.car_deleteState deleteState from t_driver_car t1 join t_car t2 on t1.car_id = t2.id where t1.driver_id=#{id} ";
+    	String keyword = params.get("keyword");
+		if(!keyword.isEmpty()||!("".equals(keyword))) {
+			sql += " and t2.car_number like '%' #{keyword} '%' ";
+		}
+		sql+="order by t1.id desc";
+    	return sql;
+    }
 }

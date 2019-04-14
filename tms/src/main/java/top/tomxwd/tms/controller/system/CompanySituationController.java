@@ -58,13 +58,6 @@ public class CompanySituationController {
 		return service.selectchartDriverTaximeter();
 	}
 	
-	@RequestMapping(value="/chartDriverPersonalTaximeter",method=RequestMethod.GET)
-	@RequiresPermissions("driver:personalIncome")
-	@ResponseBody
-	public Map<String,Object> chartDriverPersonalTaximeter(){
-		return service.selectChartDriverPersonalTaximeter();
-	}
-	
 	@RequestMapping(value="/toAddTaximeter",method=RequestMethod.GET)
 	@RequiresPermissions("teximeter:addPage")
 	public String toAddTaximeter() {

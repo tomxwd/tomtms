@@ -528,7 +528,9 @@
 			var editCarStr = "";
 			carInfoStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-info btn-sm'"+carInfofunc+"><i class='fa fa-check'></i>车辆详情</a><br><br>";
 			driverInfoStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-primary btn-sm'"+driverInfofunc+"><i class='fa fa-check'></i>司机信息</a><br><br>";
-			editCarStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-warning btn-sm'"+editfunc+"><i class='fa fa-check'></i>编辑车辆</a>";
+			<shiro:hasPermission name="car:edit">
+				editCarStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-warning btn-sm'"+editfunc+"><i class='fa fa-check'></i>编辑车辆</a>";
+			</shiro:hasPermission>
 			if(rowObject.carState==0){
 				driverInfofunc = "";
 				driverInfoStr = "";
@@ -645,31 +647,44 @@
 			var maintainStr = "";
 			var removeStr = "";
 			//<shiro:hasPermission name="user:dimissOrRestore">
+			<shiro:hasPermission name="car:">
+				
+			</shiro:hasPermission>
 			if(rowObject.carState==3){
 				//租车审核 1通过 2不通过
 				rentExaminefunc1 = "onclick='examineCar("+rowObject.id+",1)'";
 				rentExaminefunc2 = "onclick='examineCar("+rowObject.id+",2)'";
-				examineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-primary btn-sm'"+rentExaminefunc1+"><i class='fa fa-check'></i>审核通过</a>";
-				examineStr += "<br><br>";
-				examineStr += "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-default btn-sm'"+rentExaminefunc2+"><i class='fa fa-times'></i>驳回请求</a><br><br>";
+				<shiro:hasPermission name="car:examinerPass">
+					examineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-primary btn-sm'"+rentExaminefunc1+"><i class='fa fa-check'></i>审核通过</a>";
+					examineStr += "<br><br>";
+				</shiro:hasPermission>
+				<shiro:hasPermission name="car:examinerRefuse">
+					examineStr += "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-default btn-sm'"+rentExaminefunc2+"><i class='fa fa-times'></i>驳回请求</a><br><br>";
+				</shiro:hasPermission>
 			}else if(rowObject.carState==4){
 				//退车审核 3通过 4不通过
 				backExaminefun1 = "onclick='examineCar("+rowObject.id+",3)'";
 				backExaminefun2 = "onclick='examineCar("+rowObject.id+",4)'";
-				examineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-primary btn-sm'"+backExaminefun1+"><i class='fa fa-check'></i>审核通过</a>";
-				examineStr += "<br><br>";
-				examineStr += "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-default btn-sm'"+backExaminefun2+"><i class='fa fa-times'></i>驳回请求</a><br><br>";
+				<shiro:hasPermission name="car:examinerPass">
+					examineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-primary btn-sm'"+backExaminefun1+"><i class='fa fa-check'></i>审核通过</a>";
+					examineStr += "<br><br>";
+				</shiro:hasPermission>
+				<shiro:hasPermission name="car:examinerRefuse">
+					examineStr += "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-default btn-sm'"+backExaminefun2+"><i class='fa fa-times'></i>驳回请求</a><br><br>";
+				</shiro:hasPermission>
 			}else if(rowObject.carState==2){
 				//维修中 反馈
-				maintainfunc = "onclick='maintainCar("+rowObject.id+")'";
-				maintainStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-warning btn-sm'"+maintainfunc+"><i class='fa fa-check'></i>维修反馈</a><br><br>"
+				<shiro:hasPermission name="maintain:feedback">
+					maintainfunc = "onclick='maintainCar("+rowObject.id+")'";
+					maintainStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-warning btn-sm'"+maintainfunc+"><i class='fa fa-check'></i>维修反馈</a><br><br>"
+				</shiro:hasPermission>
 			}
 			//</shiro:hasPermission>
-			//<shiro:hasPermission name="user:delete">
-			if(rowObject.carState==0){
-				removeStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
-			}
-			//</shiro:hasPermission>
+			<shiro:hasPermission name="car:delete">
+				if(rowObject.carState==0){
+					removeStr = "&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-danger btn-sm' "+removefunc+"><i class='fa fa-warning'>删除</a>";
+				}
+			</shiro:hasPermission>
 			if(examineStr==""&&maintainStr==""&&removeStr==""){
 				return "无法操作";
 			}
@@ -761,7 +776,7 @@
 					});
 			} */
 			$("#table_list_1").jqGrid('setGridParam',{ 
-                url:"${ctx}/driver/driverList",
+                url:"${ctx}/car/carList",
                 postData:{'keyword':search}, //发送数据 
                 page:1 
             }).trigger("reloadGrid"); //重新载入
@@ -871,6 +886,13 @@
 								caption : "车辆信息列表",
 								hidegrid : false
 							});
+					$("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
+						edit : false,
+						add : false,
+						refresh: true,
+						del : false,
+						search : false
+					});
 					//使用自带的查询添加等功能
 					/* $("#table_list_1").jqGrid('navGrid', '#pager_list_1', {
 						edit : false,

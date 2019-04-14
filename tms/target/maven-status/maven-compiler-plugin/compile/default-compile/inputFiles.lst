@@ -19,6 +19,7 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/controller/car/CarInfoController.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/controller/car/CarMaintainController.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/SysuserService.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/driver/MaintainNoPayException.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/ModularSqlProvider.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/notice/NoticeContentExample.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/PowerService.java
@@ -28,6 +29,7 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/RoleAndPowerMapper.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/utils/CookieUtils.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/ModularMapper.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/driver/MaintainExistException.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/car/Car.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/driver/IllegalRecordPageObj.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/driver/IllegalRecordExample.java
@@ -36,6 +38,7 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/controller/system/RoleController.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/CompanySituationMapper.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/driver/DriverService.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/shiro/DriverDontFindException.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/utils/UpLoadUtils.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/ModularService.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/driver/impl/DriverServiceImpl.java
@@ -53,6 +56,7 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/Role.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/car/CarSqlProvider.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/shiro/MyAuthorizingRealm.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/shiro/DmissAccountException.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/PowerSqlProvider.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/MsgObj.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/QueryObj.java
@@ -71,6 +75,8 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/notice/NoticeService.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/SysuserExample.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/car/CarMaintainSqlProvider.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/shiro/DontPassExamException.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/shiro/NoExamException.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/controller/system/PublicPageController.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/driver/DriverInfoService.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/notice/NoticeContentProvider.java
@@ -92,7 +98,6 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/driver/impl/DriverInfoServiceImpl.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/impl/PublicPageServiceImpl.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/notice/Notice.java
-/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/shiro/NoExamEecption.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/car/CarInfoService.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/shiro/MyFormFiter.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/shiro/UserRealm.java
@@ -108,4 +113,5 @@
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/service/system/CompanySituationService.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/pojo/system/ModularExample.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/driver/DriverSqlProvider.java
+/Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/vo/driver/IllegalNoPayException.java
 /Users/xieweicong/git/tomtms/tms/src/main/java/top/tomxwd/tms/mapper/system/notice/NoticeContentMapper.java

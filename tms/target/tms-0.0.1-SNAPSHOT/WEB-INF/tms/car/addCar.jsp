@@ -123,7 +123,7 @@
 
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-8">
-								<shiro:hasPermission name="user:add">
+								<shiro:hasPermission name="car:add">
 									<button class="btn btn-primary" type="submit">添加车辆</button>
 								</shiro:hasPermission>
 								<button class="btn btn-default" type="reset">重置</button>
@@ -144,8 +144,6 @@
 	<!-- 自定义js -->
 	<script src="${ctx}/js/content.js?v=1.0.0"></script>
 
-	<script src="${ctx}/js/demo/form-validate-demo.js"></script>
-	
 	<!-- layerDate plugin javascript -->
 	<script src="${ctx}/js/plugins/layer/laydate/laydate.js"></script>
 	

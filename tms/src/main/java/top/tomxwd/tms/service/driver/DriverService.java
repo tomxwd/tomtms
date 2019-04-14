@@ -4,10 +4,14 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
 import top.tomxwd.tms.pojo.driver.Driver;
 import top.tomxwd.tms.pojo.system.Sysuser;
 import top.tomxwd.tms.vo.MsgObj;
 import top.tomxwd.tms.vo.PageObj;
+import top.tomxwd.tms.vo.driver.MaintainNoPayException;
+import top.tomxwd.tms.vo.driver.IllegalNoPayException;
+import top.tomxwd.tms.vo.driver.MaintainExistException;
 
 public interface DriverService {
 	
@@ -23,8 +27,9 @@ public interface DriverService {
 	 * 删除司机
 	 * @param id
 	 * @return
+	 * @throws DelelteException 
 	 */
-	MsgObj deleteDriver(Integer id);
+	MsgObj deleteDriver (Integer id);
 	
 	/**
 	 * 更新司机信息
@@ -61,5 +66,30 @@ public interface DriverService {
 	 * @return
 	 */
 	Map<String, Object> getAllDriver();
+	
+	/**
+	 * 司机薪资个人报表
+	 * @return
+	 */
+	Map<String, Object> selectChartDriverPersonalTaximeter();
+	
+	/**
+	 * 司机违章记录个人报表
+	 * @return
+	 */
+	Map<String, Object> selectChartDriverPersonalIllegal();
+	
+	/**
+	 * 司机维修记录个人报表
+	 * @return
+	 */
+	Map<String, Object> selectChartDriverPersonalMaintain();
+	
+	/**
+	 * 司机使用记录
+	 * @param map
+	 * @return
+	 */
+	Map<String, Object> useCarRecordList(Map<String, Object> map);
 
 }

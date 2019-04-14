@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import top.tomxwd.tms.mapper.car.CarMaintainSqlProvider;
 import top.tomxwd.tms.pojo.driver.Driver;
 import top.tomxwd.tms.pojo.driver.DriverExample;
 
@@ -119,6 +120,38 @@ public interface DriverMapper {
     
     @Select("select t1.id,t1.driver_name driverName from t_driver t1 join t_driver_car t2 on t1.id = t2.driver_id where t2.rent_state =1")
 	List<Driver> selectAllDriverAndHaveCar();
+    
+	/**
+	 * 该司机近30天收入记录
+	 * @param id
+	 * @return
+	 */
+	@Select("select round(sum(cost),1) as 'value',left(date,10) as 'name' from t_taximeter where DATE_FORMAT(date,'%Y-%m-%d')>DATE_FORMAT(date_sub(curdate(), interval 30 day),'%Y-%m-%d') and driver_id=#{id} group by name;")
+	List<Map<String, Object>> selectChartDriverPersonalTaximeter(Integer id);
 	
+	/**
+	 * 该司机近30天的违章记录
+	 * @param id
+	 * @return
+	 */
+	@Select("select count(driver_id) as 'value',left(record_date,10) as 'name' from t_illegalrecord where DATE_FORMAT(record_date,'%Y-%m-%d')>DATE_FORMAT(date_sub(curdate(), interval 30 day),'%Y-%m-%d') and driver_id=#{id} group by name;")
+	List<Map<String, Object>> selectChartDriverPersonalIllegal(Integer id);
+
+	/**
+	 * 该司机近30天的维修记录
+	 * @param id
+	 * @return
+	 */
+	@Select("select count(driver_id) as 'value',left(maintainTime,10) as 'name' from t_carmaintain where DATE_FORMAT(maintainTime,'%Y-%m-%d')>DATE_FORMAT(date_sub(curdate(), interval 30 day),'%Y-%m-%d') and driver_id=#{id} group by name;")
+	List<Map<String, Object>> selectChartDriverPersonalMaintain(Integer id);
+	
+	/**
+     * 根据车牌号可以查找车辆使用记录
+     * @param keyword
+     * @return
+     */
+    @SelectProvider(type=DriverSqlProvider.class,method="selectUseCarRecordListByKeyword")
+	List<Map<String, Object>> selectUseCarRecordListByKeyword(Map<String, String> params);
+
 	
 }

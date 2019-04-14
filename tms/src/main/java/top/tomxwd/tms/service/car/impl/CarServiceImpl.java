@@ -87,6 +87,11 @@ public class CarServiceImpl implements CarService {
 	public MsgObj deleteCar(Integer id) {
 		// 删除车辆 假删除 状态改为0
 		Car car = mapper.selectByPrimaryKey(id);
+		// 查看是否在租赁中
+		if(car.getCarState()!=0) {
+			//不在未使用中状态则返回
+			return new MsgObj(0,"车辆正在使用或审核中，无法删除！");
+		}
 		car.setCarDeletestate(0);
 		int i = mapper.updateByPrimaryKeySelective(car);
 		MsgObj msgObj = new MsgObj();
@@ -372,7 +377,6 @@ public class CarServiceImpl implements CarService {
 			DriverAndCar driverAndCar = null;
 			if (driverAndCars.size() != 0) {
 				driverAndCar = driverAndCars.get(0);
-				System.out.println(driverAndCars);
 			} else {
 				return new MsgObj(0, "获取车辆信息异常，请与管理员联系!");
 			}

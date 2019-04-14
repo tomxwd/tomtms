@@ -85,4 +85,18 @@ public interface SysuserService {
 	 * @return
 	 */
 	Integer insertNewDriverUser(Sysuser user,MultipartFile file);
+	
+	/**
+	 * 修改用户头像 司机不可修改
+	 * @param headImg
+	 * @return
+	 */
+	MsgObj updateSysuserHeadImg(MultipartFile headImg);
+	
+	/**
+	 * 修改用户密码
+	 * @param password
+	 * @return
+	 */
+	MsgObj updateSysuserPassword(String password);
 }

@@ -114,27 +114,4 @@ public class CompanySituationServiceImpl implements CompanySituationService {
 		return map;
 	}
 
-	@Override
-	public Map<String, Object> selectChartDriverPersonalTaximeter() {
-		Driver driver = driverInfoService.getCurrentDriver();
-		if(driver==null) {
-			return null;
-		}
-		Map<String, Object> map = new HashMap<>();
-		// 找数据
-		List<Map<String, Object>> illegalList = mapper.selectChartDriverPersonalTaximeter(driver.getId());
-		// 横坐标
-		List<Object> nameList = new ArrayList<>();
-		// 违章数值
-		List<Object> valueList = new ArrayList<>();
-		for (Map<String, Object> illegal : illegalList) {
-			nameList.add(illegal.get("name"));
-			valueList.add(illegal.get("value"));
-		}
-		// 返回map
-		map.put("name", nameList);
-		map.put("value", valueList);
-		return map;
-	}
-
 }
