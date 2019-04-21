@@ -169,7 +169,6 @@ public class DriverServiceImpl implements DriverService {
 
 	@Override
 	public MsgObj updateDriver(Driver driver) {
-
 		return null;
 	}
 
